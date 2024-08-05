@@ -4,89 +4,147 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  ImageBackground,
   ScrollView,
   Pressable,
+  Image,
 } from "react-native";
 import React from "react";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo1 from "@expo/vector-icons/Entypo";
-import img from "../../../assets/images/Sign_up_bg.png";
+import img2 from "../../../assets/images/6368592.jpg";
 
-const Sign_up = ({navigation}) => {
+const Sign_up = ({ navigation }) => {
   return (
-    <ScrollView className='bg-white'>
-      <ImageBackground source={img} resizeMode="cover">
-        <View className="p-6 pt-11 bg-primar h-72">
-          <Text className="text-[18px] text-white">Hello,</Text>
-          <Text className="text-[35px] text-white">Sign Up!</Text>
-        </View>
-        <View className="p-10  flex gap-4">
-        <View className="">
-            <Text className="mb-1 text-base text-gray-700">Mobile Number</Text>
-            <View className="flex flex-row items-center border border-gray-300 rounded-lg p-1.5">
-              <Entypo name="phone" size={18} color="gray" className="mr-2" />
-              <Text className='pl-2 text-base'>+91</Text>
-              <TextInput 
-                placeholder="Enter Your Phone" 
-                className="flex-1 text-base pl-1"
+    <ScrollView className="bg-white">
+      <View className="mx-auto pt-16">
+        <Image className="w-52 h-52" source={img2} alt="Image" />
+      </View>
+      <Text className="text-center text-3xl font-semibold">
+        Create an Account
+      </Text>
+      <View className="px-10 pt-6">
+        <View style={styles.container}>
+          <View style={styles.fieldset}>
+            <Text style={styles.legend}>Mobile Number</Text>
+            <View style={styles.inputContainer}>
+              <Entypo name="phone" size={18} color="gray" style={styles.icon} />
+              <Text style={styles.prefix}>+91</Text>
+              <TextInput
+                placeholder="Enter Your Phone"
+                style={styles.textInput}
                 keyboardType="phone-pad"
               />
             </View>
           </View>
-          <View className="">
-            <Text className="mb-1 text-base text-gray-700">City</Text>
-            <View className="flex flex-row items-center border border-gray-300 rounded-lg p-1.5">
-              <Entypo name="location-pin" size={20} color="gray" className="mr-2" />
-              <TextInput 
-                placeholder="Enter City Name" 
-                className="flex-1 text-base pl-1.5"
+        </View>
+        <View style={styles.container}>
+          <View style={styles.fieldset}>
+            <Text style={styles.legend}>City</Text>
+            <View style={styles.inputContainer}>
+              <Entypo
+                name="location-pin"
+                size={20}
+                color="gray"
+                style={styles.icon}
               />
-            </View>
-          </View>
-          <View className="">
-            <Text className="mb-1 text-base text-gray-700">Company Name</Text>
-            <View className="flex flex-row items-center border border-gray-300 rounded-lg p-1.5">
-              <FontAwesome name="building" size={18} color="gray" className="mr-2" />
-              <TextInput 
-                placeholder="Enter Company Name" 
-                className="flex-1 text-base pl-2"
+              <TextInput
+                placeholder="Enter City Name"
+                style={styles.textInput}
               />
             </View>
           </View>
         </View>
-        <Pressable onPress={()=>{
-            navigation.navigate('sign-in');
-        }}>
-        <Text className='text-right text-red-700'>Already have an account? Sign In</Text>
-        </Pressable>
-        <View className="flex justify-center items-center bg-white">
-          <TouchableOpacity style={styles.button}>
-            <Text className="text-white text-center text-[18px]">Sign up</Text>
+        <View style={styles.container}>
+          <View style={styles.fieldset}>
+            <Text style={styles.legend}>Company Name</Text>
+            <View style={styles.inputContainer}>
+              <FontAwesome
+                name="building"
+                size={18}
+                color="gray"
+                style={styles.icon}
+              />
+              <TextInput
+                placeholder="Enter Company Name"
+                style={styles.textInput}
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View className="flex justify-center items-center bg-white pt-8 px-10">
+        <TouchableOpacity onPress={() => {
+              navigation.navigate("verify");
+            }} style={styles.button}>
+          <Text className="text-white text-center text-base">Sign up</Text>
+        </TouchableOpacity>
+      </View>
+      <View className="flex flex-row gap-6 justify-center mt-5">
+        <Entypo name="twitter-with-circle" size={28} color="blue" />
+        <FontAwesome name="google-plus-official" size={28} color="red" />
+        <Entypo1 name="linkedin-with-circle" size={28} color="blue" />
+      </View>
+          <Pressable className="flex flex-row mx-auto pt-7">
+          <Text>Already have an account?</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("sign-in");
+            }}
+          >
+            <Text className=" text-red-700"> Sign In</Text>
           </TouchableOpacity>
-        </View>
-        <View className="flex flex-row gap-6 justify-center mt-5">
-          <Entypo name="twitter-with-circle" size={28} color="blue" />
-          <FontAwesome name="google-plus-official" size={28} color="red" />
-          <Entypo1 name="linkedin-with-circle" size={28} color="blue" />
-        </View>
-      </ImageBackground>
+        </Pressable>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#3034E9", 
-    padding: 12,
+    backgroundColor: "#3034E9",
+    padding: 9,
     borderRadius: 9999,
-    width: 220,
+    width: "100%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  container: {
+    paddingTop: 20,
+  },
+  fieldset: {
+    borderWidth: 1,
+    borderColor: "#D1D5DB",
+    borderRadius: 5,
+    padding: 8,
+    position: "relative",
+  },
+  legend: {
+    position: "absolute",
+    top: -10,
+    right: 10,
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 5,
+    fontSize: 12,
+    color: "#4B5563", // gray-700
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icon: {
+    marginRight: 8,
+  },
+  prefix: {
+    paddingLeft: 5,
+    fontSize: 16,
+  },
+  textInput: {
+    flex: 1,
+    fontSize: 16,
+    paddingLeft: 6,
   },
 });
 export default Sign_up;
