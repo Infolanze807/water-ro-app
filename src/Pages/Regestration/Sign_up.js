@@ -13,7 +13,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo1 from "@expo/vector-icons/Entypo";
 import img from "../../../assets/images/Sign_up_bg.png";
 
-const Sign_up = () => {
+const Sign_up = ({navigation}) => {
   return (
     <ScrollView>
       <ImageBackground source={img} resizeMode="cover">
@@ -55,6 +55,11 @@ const Sign_up = () => {
             </View>
           </View>
         </View>
+        <Pressable onPress={()=>{
+            navigation.navigate('sign-in');
+        }}>
+        <Text className='text-right text-red-700'>Already have account? Please Sign In</Text>
+        </Pressable>
         <View className="flex justify-center items-center bg-white">
           <TouchableOpacity style={styles.button}>
             <Text className="text-white text-center text-[18px]">Sign up</Text>
