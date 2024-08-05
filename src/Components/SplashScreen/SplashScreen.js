@@ -1,6 +1,6 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
-import img1 from "../../../assets/images/Vanilla@1x-1.8s-280px-250px.png"
+import img1 from "../../../assets/images/Vanilla.png"
 
 const SplashScreen = ({transition}) => {
   return (

@@ -3,7 +3,7 @@ import React from 'react'
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Entypo1 from '@expo/vector-icons/Entypo';
-import img from "../../../assets/images/iPhone 14 & 15 Pro Max - 6t2.png";
+import img from "../../../assets/images/Sign_up_bg.png";
 
 const Sign_up = () => {
   return (
