@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ImageBackground,
   ScrollView,
+  Pressable,
 } from "react-native";
 import React from "react";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -15,7 +16,7 @@ import img from "../../../assets/images/Sign_up_bg.png";
 
 const Sign_up = ({navigation}) => {
   return (
-    <ScrollView>
+    <ScrollView className='bg-white'>
       <ImageBackground source={img} resizeMode="cover">
         <View className="p-6 pt-11 bg-primar h-72">
           <Text className="text-[18px] text-white">Hello,</Text>
@@ -58,7 +59,7 @@ const Sign_up = ({navigation}) => {
         <Pressable onPress={()=>{
             navigation.navigate('sign-in');
         }}>
-        <Text className='text-right text-red-700'>Already have account? Please Sign In</Text>
+        <Text className='text-right text-red-700'>Already have an account? Sign In</Text>
         </Pressable>
         <View className="flex justify-center items-center bg-white">
           <TouchableOpacity style={styles.button}>
