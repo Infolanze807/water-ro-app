@@ -13,7 +13,7 @@ const Sign_in = ({navigation}) => {
           <ImageBackground source={img} resizeMode='cover'>
           <View className='p-6 pt-11 bg-primar h-96'>
       <Text className="text-[18px] text-white">Hello,</Text>
-      <Text className='text-[35px] text-white'>Sign Up!</Text>
+      <Text className='text-[35px] text-white'>Sign In!</Text>
       </View>
       <View className='p-10  flex gap-4'>
         <View>
