@@ -1,13 +1,15 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native'
 import React from 'react'
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Entypo1 from '@expo/vector-icons/Entypo';
+import img from "../../../assets/images/iPhone 14 & 15 Pro Max - 6t2.png";
 
 const Sign_up = () => {
   return (
     <View>
-        <View className='p-6 pt-11 bg-primary h-72'>
+          <ImageBackground source={img} resizeMode='cover'>
+        <View className='p-6 pt-11 bg-primar h-72'>
       <Text className="text-[18px] text-white">Hello,</Text>
       <Text className='text-[35px] text-white'>Sign Up!</Text>
       </View>
@@ -35,6 +37,7 @@ const Sign_up = () => {
       <FontAwesome name="google-plus-official" size={28} color="red" />
       <Entypo1 name="linkedin-with-circle" size={28} color="blue" />
       </View>
+          </ImageBackground>
     </View>
   )
 }
