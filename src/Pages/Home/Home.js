@@ -3,7 +3,7 @@ import React from 'react'
 
 const Home = () => {
   return (
-    <View>
+    <View className='pt-9'>
       <Text>Home</Text>
     </View>
   )
