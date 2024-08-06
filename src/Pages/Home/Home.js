@@ -1,82 +1,75 @@
-import { View, Text, Image, FlatList, ScrollView } from 'react-native';
+import { View, Text, Image, FlatList, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
-import img from '../../../assets/images/react-logo.png';
+import img from '../../../assets/images/water-filters-glasses-water-ice.jpg';
+import img1 from '../../../assets/images/strong-base-anion-isoporous-250x250.webp';
+import img2 from '../../../assets/images//strong-acid-cation-resin-water-demineralization-softening-resin-250x250.webp';
+import img3 from '../../../assets/images//mixed-bed-super-charge-resin-sdi-250x250.webp';
+import img4 from '../../../assets/images/strong-cation-resin-csa-121-250x250.webp';
+import img5 from '../../../assets/images/strong-base-anion-isoporous-250x250.webp';
+import img6 from '../../../assets/images/resin-ion-exchange-250x250.webp';
 
-const Home = () => {
+
+const Home = ({navigation}) => {
   const data = [
     {
       id: "1",
-      img: img,
-      name: "Apple ",
+      img: img1,
+      name: "Demineralization Resin",
       price: "$10/KG"
     },
     {
       id: "2",
-      img: img,
-      name: "Orange",
+      img: img2,
+      name: "Softening Resin",
       price: "$15/KG"
     },
     {
       id: "3",
-      img: img,
-      name: "Kiwi",
+      img: img3,
+      name: "Iron Removal Resin",
       price: "$30/KG"
     },
     {
       id: "4",
-      img: img,
-      name: "Dragon",
+      img: img4,
+      name: "Ion Exchange Resin",
       price: "$50/KG"
     },
     {
       id: "5",
-      img: img,
-      name: "Banana",
+      img: img5,
+      name: "Anion Resin",
       price: "$20/KG"
     },
     {
       id: "6",
-      img: img,
-      name: "Mango",
+      img: img6,
+      name: "Cnc Wire Cut Edm",
       price: "$25/KG"
     },
-    {
-      id: "7",
-      img: img,
-      name: "Grapes",
-      price: "$35/KG"
-    },
-    {
-      id: "8",
-      img: img,
-      name: "Pineapple",
-      price: "$40/KG"
-    },
-    {
-      id: "9",
-      img: img,
-      name: "Watermelon",
-      price: "$30/KG"
-    }
   ];
 
   const renderItem = ({ item }) => (
-    <View className="w-36 h-48 p-4 bg-gray-300 rounded-lg m-2 flex items-center justify-center">
-      <Image source={item.img} className="w-24 h-24" />
-      <Text className="mt-2">{item.name}</Text>
-      <Text className="text-gray-600">{item.price}</Text>
-    </View>
+    <TouchableOpacity onPress={() => navigation.navigate('product', {product: item})} style={styles.itemContainer}>
+      <Image source={item.img} style={styles.itemImage} />
+      <Text style={styles.itemName}>{item.name}</Text>
+      <Text style={styles.itemPrice}>{item.price}</Text>
+    </TouchableOpacity>
   );
 
   return (
-    <ScrollView className="bg-white h-full" showsVerticalScrollIndicator={false}>
-      <View className='h-48 w-full border  border-red-700'>
-      <Image source={img} className="h-full border-2 border-black " />
+    <View>
+      <View style={styles.imageContainer}>
+        <Image source={img} style={styles.headerImage} />
       </View>
-      <View>
-        <Text className='text-xl p-2 '>Products</Text>
+      <View style={styles.mainProduct}>
+        <Text style={styles.headerText}>Products</Text>
+        <TouchableOpacity>
+          <Text style={styles.seeAll}>View All</Text>
+        </TouchableOpacity>
       </View>
-      <View>
+    <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+      <View style={styles.productP}>
         <FlatList
           data={data}
           numColumns={2}
@@ -84,11 +77,77 @@ const Home = () => {
           keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+          contentContainerStyle={styles.flatListContent}
         />
       </View>
     </ScrollView>
+    </View>
   );
 };
 
 export default Home;
+
+const styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: 'white',
+  },
+  imageContainer: {
+    height: "25%",
+    width: '100%',
+  },
+  headerImage: {
+    height: '100%',
+    width: '100%',
+  },
+  productP: {
+    paddingBottom: 220,
+  },
+  mainProduct: {
+    backgroundColor: 'f3f4f6',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  seeAll: {
+    fontSize: 14,
+    color: 'gray'
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  flatListContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemContainer: {
+    width: 150,
+    height: 190,
+    borderColor: '#d1d5db',
+    borderWidth: 1,
+    backgroundColor: '#f3f4f6',
+    borderRadius: 6,
+    margin: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemImage: {
+    width: '100%',
+    height: '73%',
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+  },
+  itemName: {
+    marginTop: 8,
+    fontSize: 12,
+    fontWeight: '500'
+  },
+  itemPrice: {
+    color: 'black',
+    fontSize: 12,
+    paddingBottom: 10,
+  },
+});
