@@ -24,8 +24,8 @@ export default function HomeTabNavigation() {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Calculator" component={Calculator} />
+      <Tab.Screen name="Home" component={Home} options={{headerShown: true,}} />
+      <Tab.Screen name="Calculator" component={Calculator} options={{headerShown: true, headerStatusBarHeight: 22}} />
     </Tab.Navigator>
   );
 }
