@@ -101,9 +101,11 @@ const styles = StyleSheet.create({
   },
   productP: {
     paddingBottom: 220,
+    backgroundColor: '#f3f4f6',
   },
   mainProduct: {
-    backgroundColor: 'f3f4f6',
+    // backgroundColor: 'f3f4f6',
+    backgroundColor: 'white',
     paddingHorizontal: 20,
     paddingVertical: 10,
     display: 'flex',
@@ -126,19 +128,27 @@ const styles = StyleSheet.create({
   itemContainer: {
     width: 150,
     height: 190,
+    padding: 8,
     borderColor: '#d1d5db',
-    borderWidth: 1,
-    backgroundColor: '#f3f4f6',
+    // borderWidth: 1,
+    // backgroundColor: '#f3f4f6',
+    backgroundColor: 'white',
     borderRadius: 6,
     margin: 12,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   itemImage: {
     width: '100%',
     height: '73%',
-    borderTopLeftRadius: 6,
-    borderTopRightRadius: 6,
+    // borderTopLeftRadius: 6,
+    // borderTopRightRadius: 6,
+    borderRadius: 7,
   },
   itemName: {
     marginTop: 8,
@@ -148,6 +158,6 @@ const styles = StyleSheet.create({
   itemPrice: {
     color: 'black',
     fontSize: 12,
-    paddingBottom: 10,
+    // paddingBottom: 10,
   },
 });

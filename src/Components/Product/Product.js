@@ -1,72 +1,70 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import React from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 const Product = ({ route, navigation }) => {
+
   const { product } = route.params;
 
   return (
-    <View className="flex-1 pt-8 px-3 bg-white">
-        <View className="flex flex-row items-center">
-          <TouchableOpacity onPress={() => navigation.goBack('-1')}>
-            <Ionicons name="arrow-back" size={28} color="black" />
-          </TouchableOpacity>
-          <Text className="text-base text-[23px] mx-3">Product Details</Text>
-        </View>
+    <View style={styles.container}>
+        <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack('-1')}>
+          <Ionicons name="arrow-back" size={28} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Product Details</Text>
+      </View>
       <ScrollView showsVerticalScrollIndicator={false} >
-        <View className="flex justify-center items-center mt-5">
-          <Image source={product.img} className="w-full h-[290px]" />
-          <Text className="mt-2 text-lg">{product.name}</Text>
-          <Text className="text-gray-600 text-base">{product.price}</Text>
+      <View style={styles.imageContainer}>
+          <Image source={product.img} style={styles.productImage} />
         </View>
-        <View className="mt-5">
-          <Text className="text-base mb-3">Product Specifications</Text>
-          <View className="flex flex-row justify-between pb-20">
+        <View style={styles.specificationsContainer}>
+          <Text style={styles.specificationsTitle}>Product Specifications</Text>
+          <View style={styles.specifications}>
             <View>
-              <Text className="text-gray-400 text-base">Tank Capacity</Text>
-              <Text className="text-gray-400 text-base">Country of Origin</Text>
-              <Text className="text-gray-400 text-base">Cooler Type</Text>
-              <Text className="text-gray-400 text-base">Air throw coverage</Text>
-              <Text className="text-gray-400 text-base">Brand</Text>
-              <Text className="text-gray-400 text-base">Material</Text>
-              <Text className="text-gray-400 text-base">Minimum Order</Text>
-              <Text className="text-gray-400 text-base">Quantity</Text>
-              <Text className="text-gray-400 text-base">Product Brochure</Text>
+              <Text style={styles.specificationLabel}>Product Name</Text>
+              <Text style={styles.specificationLabel}>Price</Text>
+              <Text style={styles.specificationLabel}>Tank Capacity</Text>
+              <Text style={styles.specificationLabel}>Country of Origin</Text>
+              <Text style={styles.specificationLabel}>Cooler Type</Text>
+              <Text style={styles.specificationLabel}>Air throw coverage</Text>
+              <Text style={styles.specificationLabel}>Brand</Text>
+              <Text style={styles.specificationLabel}>Material</Text>
+              <Text style={styles.specificationLabel}>Minimum Order</Text>
+              <Text style={styles.specificationLabel}>Quantity</Text>
+              <Text style={styles.specificationLabel}>Product Brochure</Text>
             </View>
             <View>
-              <Text className="text-base">90 L</Text>
-              <Text className="text-base">India</Text>
-              <Text className="text-base">Desert</Text>
-              <Text className="text-base">60 ft</Text>
-              <Text className="text-base">Powerteck</Text>
-              <Text className="text-base">ABS</Text>
-              <Text className="text-base">10</Text>
-              <Text className="text-base">20</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
-              <Text className="text-base">PDF</Text>
+              <Text style={styles.specificationValue}>{product.name}</Text>
+              <Text style={styles.specificationValue}>{product.price}</Text>
+              <Text style={styles.specificationValue}>90 L</Text>
+              <Text style={styles.specificationValue}>India</Text>
+              <Text style={styles.specificationValue}>Desert</Text>
+              <Text style={styles.specificationValue}>60 ft</Text>
+              <Text style={styles.specificationValue}>Powerteck</Text>
+              <Text style={styles.specificationValue}>ABS</Text>
+              <Text style={styles.specificationValue}>10</Text>
+              <Text style={styles.specificationValue}>20</Text>
+              <Text style={styles.specificationValue}>PDF</Text>
+              <Text style={styles.specificationValue}>PDF</Text>
+              <Text style={styles.specificationValue}>PDF</Text>
+              <Text style={styles.specificationValue}>PDF</Text>
+              <Text style={styles.specificationValue}>PDF</Text>
+              <Text style={styles.specificationValue}>PDF</Text>
+              <Text style={styles.specificationValue}>PDF</Text>
+              <Text style={styles.specificationValue}>PDF</Text>
+              <Text style={styles.specificationValue}>PDF</Text>
+              <Text style={styles.specificationValue}>PDF</Text>
             </View>
           </View>
         </View>
       </ScrollView>
-      <View className="absolute bottom-0 left-0 right-0 bg-white p-2 flex flex-row">
-        <TouchableOpacity className="flex-1 p-4 border  rounded-full mx-1">
-          <Text className="text-center  text-lg">Message</Text>
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.button1}>
+          <Text style={styles.buttonText1}>Calculate</Text>
         </TouchableOpacity>
-        <TouchableOpacity className="flex-1 p-4 border rounded-full mx-1">
-          <Text className="text-center text-lg">Book Now</Text>
+        <TouchableOpacity style={styles.button2}>
+          <Text style={styles.buttonText2}>Download</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -74,3 +72,99 @@ const Product = ({ route, navigation }) => {
 };
 
 export default Product;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 35,
+    backgroundColor: 'white',
+  },
+  header: {
+    flexDirection: 'row',
+    paddingBottom: 5,
+    paddingHorizontal: 15,
+    alignItems: 'center',
+  },
+  headerText: {
+    fontWeight: '600',
+    fontSize: 23,
+    marginLeft: 6,
+  },
+  imageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  productImage: {
+    width: '100%',
+    height: 290,
+  },
+  specificationsContainer: {
+    paddingTop: 20,
+    paddingHorizontal: 17,
+    backgroundColor: '#f3f4f6',
+  },
+  specificationsTitle: {
+    fontSize: 18,
+    fontWeight: "500",
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  specifications: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 20,
+  },
+  specificationLabel: {
+    color: 'gray',
+    fontSize: 16,
+  },
+  specificationValue: {
+    fontSize: 16,
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: "center",
+    backgroundColor: 'white',
+    padding: 10,
+    paddingHorizontal: 3,
+    flexDirection: 'row',
+    gap: 12,
+  },
+  button1: {
+    backgroundColor: "white",
+    padding: 9,
+    borderColor: "#3034E9",
+    borderWidth: 1,
+    borderRadius: 9999,
+    width: "44%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  button2: {
+    backgroundColor: "#3034E9",
+    padding: 9,
+    borderRadius: 9999,
+    width: "44%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  buttonText1: {
+    textAlign: 'center',
+    color: '#3034E9',
+    fontSize: 18,
+  },
+  buttonText2: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 18,
+  },
+})
