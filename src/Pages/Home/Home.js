@@ -64,7 +64,7 @@ const Home = ({navigation}) => {
       </View>
       <View style={styles.mainProduct}>
         <Text style={styles.headerText}>Products</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=> navigation.navigate('viewall')}>
           <Text style={styles.seeAll}>View All</Text>
         </TouchableOpacity>
       </View>

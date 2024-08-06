@@ -6,6 +6,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import HomeTabNavigation from "./src/Navigators/HomeTabNavigation";
 import VerifyOTP from "./src/Pages/VerifyOTP/VerifyOTP"
 import Product from "./src/Components/Product/Product";
+import ViewAll from "./src/Components/ViewAll/ViewAll";
+import LandingPage from "./src/Components/LandingPage/LandingPage";
 
 const App = () => {
   const Stack = createStackNavigator();
@@ -17,6 +19,8 @@ const App = () => {
           <Stack.Screen name="sign-in" component={Sign_in} />
           <Stack.Screen name="verify" component={VerifyOTP} />
           <Stack.Screen name="product" component={Product} />
+          <Stack.Screen name="viewall" component={ViewAll} />
+          <Stack.Screen name="landingpage" component={LandingPage} />
         </Stack.Navigator>
       </NavigationContainer>
   );
