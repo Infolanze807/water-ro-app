@@ -1,21 +1,34 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import React from 'react';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
+import React from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import colors from "../Colors/Colors";
 
 const Product = ({ route, navigation }) => {
-
   const { product } = route.params;
 
   return (
     <View style={styles.container}>
+      <View style={styles.share}>
         <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack('-1')}>
-          <Ionicons name="arrow-back" size={28} color="black" />
+          <TouchableOpacity onPress={() => navigation.goBack("-1")}>
+            <Ionicons name="arrow-back" size={28} color={colors.white} />
+          </TouchableOpacity>
+          <Text style={styles.headerText}>Product Details</Text>
+        </View>
+        <TouchableOpacity style={styles.shareButton}>
+          <FontAwesome name="share-square-o" size={20} color={colors.white} />
         </TouchableOpacity>
-        <Text style={styles.headerText}>Product Details</Text>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false} >
-      <View style={styles.imageContainer}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.imageContainer}>
           <Image source={product.img} style={styles.productImage} />
         </View>
         <View style={styles.specificationsContainer}>
@@ -76,95 +89,105 @@ export default Product;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 35,
-    backgroundColor: 'white',
+    paddingTop: 42,
+    backgroundColor: colors.primary,
   },
   header: {
-    flexDirection: 'row',
-    paddingBottom: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  share: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 15,
-    alignItems: 'center',
+    paddingBottom: 9,
   },
   headerText: {
-    fontWeight: '600',
+    fontWeight: "500",
     fontSize: 23,
     marginLeft: 6,
+    color: colors.white,
+  },
+  shareButton: {
+    paddingTop: 8,
   },
   imageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   productImage: {
-    width: '100%',
+    width: "100%",
     height: 290,
   },
   specificationsContainer: {
     paddingTop: 20,
     paddingHorizontal: 17,
-    backgroundColor: '#f3f4f6',
+    backgroundColor: colors.white,
   },
   specificationsTitle: {
     fontSize: 18,
     fontWeight: "500",
     marginBottom: 12,
-    textAlign: 'center',
+    textAlign: "center",
   },
   specifications: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingBottom: 20,
   },
   specificationLabel: {
-    color: 'gray',
+    color: "gray",
     fontSize: 16,
   },
   specificationValue: {
     fontSize: 16,
   },
   footer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     justifyContent: "center",
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     padding: 10,
     paddingHorizontal: 3,
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
   },
   button1: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     padding: 9,
-    borderColor: "#3034E9",
+    borderColor: colors.primary,
     borderWidth: 1,
     borderRadius: 9999,
     width: "44%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.2,
+    shadowRadius: 1,
+    elevation: 4,
   },
   button2: {
-    backgroundColor: "#3034E9",
+    backgroundColor: colors.primary,
     padding: 9,
     borderRadius: 9999,
     width: "44%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.2,
+    shadowRadius: 1,
+    elevation: 4,
   },
   buttonText1: {
-    textAlign: 'center',
-    color: '#3034E9',
+    textAlign: "center",
+    color: colors.primary,
     fontSize: 18,
   },
   buttonText2: {
-    textAlign: 'center',
-    color: 'white',
+    textAlign: "center",
+    color: colors.white,
     fontSize: 18,
   },
-})
+});

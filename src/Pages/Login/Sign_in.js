@@ -13,6 +13,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import Entypo1 from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import img2 from "../../../assets/images/5191079.jpg";
+import colors from "../../Components/Colors/Colors";
 
 const Sign_in = ({ navigation }) => {
   return (
@@ -48,9 +49,9 @@ const Sign_in = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View className="flex flex-row gap-6 justify-center mt-5">
-        <Entypo name="twitter-with-circle" size={28} color="blue" />
+        <Entypo name="twitter-with-circle" size={28} color={colors.primary} />
         <FontAwesome name="google-plus-official" size={28} color="red" />
-        <Entypo1 name="linkedin-with-circle" size={28} color="blue" />
+        <Entypo1 name="linkedin-with-circle" size={28} color={colors.primary} />
       </View>
         <Pressable className="flex flex-row mx-auto pt-8">
           <Text>Don't have an account?</Text>
@@ -59,7 +60,7 @@ const Sign_in = ({ navigation }) => {
               navigation.navigate("sign-up");
             }}
           >
-            <Text className=" text-red-700"> Sign Up</Text>
+            <Text style={styles.SignUp}> Sign Up</Text>
           </TouchableOpacity>
         </Pressable>
     </ScrollView>
@@ -70,7 +71,7 @@ export default Sign_in;
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#3034E9",
+    backgroundColor: colors.primary,
     padding: 9,
     borderRadius: 9999,
     width: "100%",
@@ -83,6 +84,9 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 20,
   },
+  SignUp: {
+    color: colors.primary
+  },  
   fieldset: {
     borderWidth: 1,
     borderColor: "#D1D5DB",

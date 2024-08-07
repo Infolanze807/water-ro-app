@@ -2,6 +2,7 @@ import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Pressable,
 import React from "react";
 import img2 from "../../../assets/images/6538623.jpg";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import colors from "../../Components/Colors/Colors";
 
 export default function VerifyOTP({navigation}) {
   return (
@@ -39,7 +40,7 @@ export default function VerifyOTP({navigation}) {
               navigation.navigate("sign-up");
             }}
           >
-            <Text className=" text-red-700"> Sign In</Text>
+            <Text style={styles.SignIn}> Sign In</Text>
           </TouchableOpacity>
         </Pressable>
     </ScrollView>
@@ -48,7 +49,7 @@ export default function VerifyOTP({navigation}) {
 
 const styles = StyleSheet.create({
     button: {
-      backgroundColor: "#3034E9",
+      backgroundColor: colors.primary,
       padding: 9,
       borderRadius: 9999,
       width: "100%",
@@ -60,6 +61,9 @@ const styles = StyleSheet.create({
     },
     container: {
       paddingTop: 20,
+    },
+    SignIn: {
+      color: colors.primary,
     },
     fieldset: {
       borderWidth: 1,

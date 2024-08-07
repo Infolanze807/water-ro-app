@@ -7,6 +7,7 @@ import img3 from '../../../assets/images//mixed-bed-super-charge-resin-sdi-250x2
 import img4 from '../../../assets/images/strong-cation-resin-csa-121-250x250.webp';
 import img5 from '../../../assets/images/strong-base-anion-isoporous-250x250.webp';
 import img6 from '../../../assets/images/resin-ion-exchange-250x250.webp';
+import colors from '../../Components/Colors/Colors';
 
 
 const Home = ({navigation}) => {
@@ -47,7 +48,27 @@ const Home = ({navigation}) => {
       name: "Cnc Wire Cut Edm",
       price: "$25/KG"
     },
+    {
+      id: "7",
+      img: img4,
+      name: "Ion Exchange Resin",
+      price: "$50/KG"
+    },
+    {
+      id: "8",
+      img: img5,
+      name: "Anion Resin",
+      price: "$20/KG"
+    },
+    {
+      id: "9",
+      img: img6,
+      name: "Cnc Wire Cut Edm",
+      price: "$25/KG"
+    },
   ];
+
+  const limitedData = data.slice(0, 6);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => navigation.navigate('product', {product: item})} style={styles.itemContainer}>
@@ -64,14 +85,14 @@ const Home = ({navigation}) => {
       </View>
       <View style={styles.mainProduct}>
         <Text style={styles.headerText}>Products</Text>
-        <TouchableOpacity onPress={()=> navigation.navigate('viewall')}>
+        <TouchableOpacity onPress={()=> navigation.navigate('viewall', {data})}>
           <Text style={styles.seeAll}>View All</Text>
         </TouchableOpacity>
       </View>
     <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
       <View style={styles.productP}>
         <FlatList
-          data={data}
+          data={limitedData}
           numColumns={2}
           renderItem={renderItem}
           keyExtractor={item => item.id}
@@ -104,7 +125,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f3f4f6',
   },
   mainProduct: {
-    // backgroundColor: 'f3f4f6',
     backgroundColor: 'white',
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -115,11 +135,12 @@ const styles = StyleSheet.create({
   },
   seeAll: {
     fontSize: 14,
-    color: 'gray'
+    color: colors.primary,
   },
   headerText: {
     fontSize: 20,
     fontWeight: '600',
+    // color: colors.gray,
   },
   flatListContent: {
     justifyContent: 'center',
@@ -153,7 +174,7 @@ const styles = StyleSheet.create({
   itemName: {
     marginTop: 8,
     fontSize: 12,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   itemPrice: {
     color: 'black',

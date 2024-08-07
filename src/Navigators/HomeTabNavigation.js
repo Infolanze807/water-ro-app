@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import Home from '../Pages/Home/Home';
 import Calculator from '../Pages/Calculator/Calculator';
+import colors from '../Components/Colors/Colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,12 +21,12 @@ export default function HomeTabNavigation() {
           }
           return <Ionicons name={iconName} size={20} color={color} />;
         },
-        tabBarActiveTintColor: 'blue',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.gray,
       })}
     >
-      <Tab.Screen name="Home" component={Home} options={{headerShown: true,}} />
-      <Tab.Screen name="Calculator" component={Calculator} options={{headerShown: true, headerStatusBarHeight: 22}} />
+      <Tab.Screen name="Home" component={Home} options={{headerShown: true, headerTintColor: colors.white, headerStyle: {backgroundColor: colors.primary}}} />
+      <Tab.Screen name="Calculator" component={Calculator} options={{headerShown: true}} />
     </Tab.Navigator>
   );
 }
