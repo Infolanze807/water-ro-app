@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import colors from '../../Components/Colors/Colors';
 
 const Calculator = () => {
 
@@ -44,7 +45,7 @@ const Calculator = () => {
         </View>
       </View>
       <View className='pt-4'>
-      <Button title="Calculate"  onPress={() => {}} />
+      <Button style={styles.button} title="Calculate"  onPress={() => {}} />
       </View>
         <View className='flex gap-3 pt-10'>
         <View>
@@ -98,4 +99,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: '100%',
   },
+  button: {
+    backgroundColor: colors.primary,
+  }
 });

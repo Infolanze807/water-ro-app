@@ -1,13 +1,29 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native'
 import React from 'react'
-import img from "../../../assets/images/4140045.jpg"
+import img from "../../../assets/images/2300380-removebg-preview.png"
 import colors from '../Colors/Colors'
+import { Path, Svg } from 'react-native-svg'
 
 const LandingPage = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.mainContainer}>
         <Image style={styles.image} source={img} alt='Image' />
+        <View style={styles.curveWrapper}>
+          <View style={styles.curveContainer}>
+            <Svg
+              height="100%"
+              width="100%"
+              viewBox="0 0 1200 120"
+              preserveAspectRatio="none"
+            >
+              <Path
+                fill={colors.white}
+                 d="M600,112.77C268.63,112.77,0,65.52,0,7.23V120H1200V7.23C1200,65.52,931.37,112.77,600,112.77Z"
+              />
+            </Svg>
+          </View>
+        </View>
       </View>
       <View style={styles.secondContainer}>
         <View style={styles.mainSecond}>
@@ -58,6 +74,22 @@ const styles= StyleSheet.create({
     }),
     borderRadius: 20,
    },
+   curveWrapper: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 80,
+    overflow: 'hidden',
+    zIndex: 1,
+  },
+  curveContainer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: 80,
+    overflow: 'hidden',
+  },
    secondContainer: {
     flex:4,
     paddingHorizontal: 20,
@@ -78,8 +110,8 @@ const styles= StyleSheet.create({
     alignItems: 'center',
    },
    image: {
-    height: 200,
-    width: 200,
+    height: 280,
+    width: 280,
    },
    mainMain: {
     fontSize: 28,

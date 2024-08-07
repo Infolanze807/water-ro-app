@@ -8,6 +8,7 @@ import img4 from '../../../assets/images/strong-cation-resin-csa-121-250x250.web
 import img5 from '../../../assets/images/strong-base-anion-isoporous-250x250.webp';
 import img6 from '../../../assets/images/resin-ion-exchange-250x250.webp';
 import colors from '../../Components/Colors/Colors';
+import Octicons from '@expo/vector-icons/Octicons';
 
 
 const Home = ({navigation}) => {
@@ -80,6 +81,20 @@ const Home = ({navigation}) => {
 
   return (
     <View>
+      <View style={styles.mainContainer}>
+        <View style={styles.userHeader}>
+          <View style={styles.userIcon}>
+            <Text style={styles.userIconText}>N</Text>
+          </View>
+          <View style={styles.userName}>
+            <Text style={styles.userText}>Welcome</Text>
+            <Text style={styles.userNameText}>Infolanze Tech</Text>
+          </View>
+        </View>
+        <View style={styles.homeIcon}>
+          <Octicons name="home" size={24} color={colors.white} />
+        </View>
+      </View>
       <View style={styles.imageContainer}>
         <Image source={img} style={styles.headerImage} />
       </View>
@@ -112,8 +127,49 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: 'white',
   },
+  mainContainer: {
+    backgroundColor: colors.primary,
+    paddingHorizontal: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 50,
+    paddingBottom: 19,
+    borderBottomRightRadius: 25,
+    borderBottomLeftRadius: 25,
+  },
+  userHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 12,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  userIcon: {
+    padding: 10,
+    paddingHorizontal: 17,
+    borderRadius: 99,
+    backgroundColor: colors.white
+  },
+  userIconText: {
+    fontSize: 20,
+    fontWeight: "600",
+  },
+  userName: {
+
+  },
+  userText: {
+    fontSize: 15,
+    color: colors.white,
+  },  
+  userNameText: {
+    fontSize: 20,
+    fontWeight: "500",
+    color: colors.white,
+  },
   imageContainer: {
-    height: "25%",
+    height: "21%",
     width: '100%',
   },
   headerImage: {
@@ -121,7 +177,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   productP: {
-    paddingBottom: 220,
+    paddingBottom: 320,
     backgroundColor: '#f3f4f6',
   },
   mainProduct: {

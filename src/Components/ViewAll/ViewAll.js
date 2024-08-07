@@ -24,7 +24,7 @@ const ViewAll = ({route, navigation}) => {
             <TouchableOpacity onPress={() => navigation.navigate('product', {product: item})}
               style={{
                 padding: 10,
-                backgroundColor: colors.background,
+                backgroundColor: colors.lightGray,
                 borderRadius: 15,
                 marginBottom: 15,
                 flexDirection: "row",
