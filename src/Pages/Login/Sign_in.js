@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   Pressable,
   ScrollView,
@@ -8,14 +9,35 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
 import Entypo1 from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import img2 from "../../../assets/images/5191079.jpg";
 import colors from "../../Components/Colors/Colors";
+import axios from "axios";
 
 const Sign_in = ({ navigation }) => {
+
+  const [login, setLogin] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post('http://192.168.29.111:3000/auth/login', {
+        mobile_number: `+91${login}`,
+      });
+      if (res.data.status === true) {
+        Alert.alert("Success", res.data.message);  // Display success message from server
+        navigation.navigate("verify");
+      } else {
+        Alert.alert("Error", res.data.message);  // Display error message from server
+      }
+    } catch (error) {
+      console.log("Error Response:", error.res);  // Log error response for debugging
+      Alert.alert("Error", error.res?.data?.message || "Server error");
+    }
+  }
+
   return (
     <ScrollView className="bg-white">
       <View className="mx-auto pt-32">
@@ -33,6 +55,8 @@ const Sign_in = ({ navigation }) => {
                 placeholder="Enter Your Phone"
                 style={styles.textInput}
                 keyboardType="phone-pad"
+                value={login}
+                onChangeText={setLogin}
               />
             </View>
           </View>
@@ -40,9 +64,7 @@ const Sign_in = ({ navigation }) => {
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Home");
-          }}
+          onPress={handleLogin}
           style={styles.button}
         >
           <Text className="text-white text-center text-base">Sign In</Text>

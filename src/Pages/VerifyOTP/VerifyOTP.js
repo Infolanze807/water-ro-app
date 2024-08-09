@@ -1,10 +1,32 @@
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Pressable, TextInput } from "react-native";
-import React from "react";
+import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Pressable, TextInput, Alert } from "react-native";
+import React, { useState } from "react";
 import img2 from "../../../assets/images/6538623.jpg";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import colors from "../../Components/Colors/Colors";
+import axios from "axios";
 
 export default function VerifyOTP({navigation}) {
+
+  const [otp, setOtp] = useState('');
+
+  const handleVerify = async () => {
+    try {
+      const res = await axios.post('http://192.168.29.111:3000/auth/verify', {
+        mobile_number: `+91${'9898656562'}`,
+        otp: otp
+      });
+      if (res.data.status === true) {
+        Alert.alert("Success", res.data.message);  // Display success message from server
+        navigation.navigate("Home");
+      } else {
+        Alert.alert("Error", res.data.message);  // Display error message from server
+      }
+    } catch (error) {
+      console.log("Error Response:", error.res);  // Log error response for debugging
+      Alert.alert("Error", error.res?.data?.message || "Server error");
+    }
+  }
+
   return (
     <ScrollView className="bg-white">
       <View className="mx-auto pt-32">
@@ -23,13 +45,17 @@ export default function VerifyOTP({navigation}) {
                 placeholder="Enter OTP"
                 style={styles.textInput}
                 keyboardType="phone-pad"
+                value={otp}
+                onChangeText={setOtp}
+                textContentType="oneTimeCode"
+                autoComplete="sms-otp"
               />
             </View>
           </View>
         </View>
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleVerify}>
           <Text className="text-white text-center text-base">Verify</Text>
         </TouchableOpacity>
       </View>

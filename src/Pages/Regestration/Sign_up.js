@@ -7,15 +7,50 @@ import {
   ScrollView,
   Pressable,
   Image,
+  Alert,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo1 from "@expo/vector-icons/Entypo";
 import img2 from "../../../assets/images/6368592.jpg";
 import colors from "../../Components/Colors/Colors";
+import axios from "axios";
 
 const Sign_up = ({ navigation }) => {
+  const [companyName, setCompanyName] = useState("");
+  const [city, setCity] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+
+  const handleSignUp = async () => {
+    if (!companyName || !city || !mobileNumber) {
+      Alert.alert("Error", "All fields are required.");
+      return;
+    }
+  
+    try {
+      const response = await axios.post("http://192.168.29.111:3000/auth/register", {
+        company_name: companyName,
+        city: city,
+        mobile_number: `+91${mobileNumber}`,
+      });
+      
+      // Log the full response
+      console.log("Responsesssss:", response);
+  
+      if (response.data.status === true) {
+        Alert.alert("Success", response.data.message);  // Display success message from server
+        navigation.navigate("verify");
+      } else {
+        Alert.alert("Error", response.data.message);  // Display error message from server
+      }
+    } catch (error) {
+      console.log("Error Response:", error.response);  // Log error response for debugging
+      Alert.alert("Error", error.response?.data?.message || "Server error");
+    }
+  };
+  
+
   return (
     <ScrollView className="bg-white">
       <View className="mx-auto pt-16">
@@ -35,6 +70,9 @@ const Sign_up = ({ navigation }) => {
                 placeholder="Enter Your Phone"
                 style={styles.textInput}
                 keyboardType="phone-pad"
+                value={mobileNumber}
+                onChangeText={setMobileNumber}
+
               />
             </View>
           </View>
@@ -52,6 +90,8 @@ const Sign_up = ({ navigation }) => {
               <TextInput
                 placeholder="Enter City Name"
                 style={styles.textInput}
+                value={city}
+                onChangeText={setCity}
               />
             </View>
           </View>
@@ -69,15 +109,15 @@ const Sign_up = ({ navigation }) => {
               <TextInput
                 placeholder="Enter Company Name"
                 style={styles.textInput}
+                value={companyName}
+                onChangeText={setCompanyName}
               />
             </View>
           </View>
         </View>
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
-        <TouchableOpacity onPress={() => {
-              navigation.navigate("verify");
-            }} style={styles.button}>
+        <TouchableOpacity onPress={handleSignUp} style={styles.button}>
           <Text className="text-white text-center text-base">Sign up</Text>
         </TouchableOpacity>
       </View>

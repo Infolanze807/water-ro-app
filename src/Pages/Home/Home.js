@@ -1,5 +1,5 @@
 import { View, Text, Image, FlatList, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import img from '../../../assets/images/water-filters-glasses-water-ice.jpg';
 import img1 from '../../../assets/images/strong-base-anion-isoporous-250x250.webp';
 import img2 from '../../../assets/images//strong-acid-cation-resin-water-demineralization-softening-resin-250x250.webp';
@@ -9,75 +9,122 @@ import img5 from '../../../assets/images/strong-base-anion-isoporous-250x250.web
 import img6 from '../../../assets/images/resin-ion-exchange-250x250.webp';
 import colors from '../../Components/Colors/Colors';
 import Octicons from '@expo/vector-icons/Octicons';
+import axios from 'axios';
 
+const bucketSlug = 'demo';
+const objectType = 'demos';
+const cosmicReadKey = 'kbg7XWdgt2NPOACUqiTbzXKBYujO2rBK9oOoWPJIO7G603wgIy';
+const apiUrl = `https://api.cosmicjs.com/v3/buckets/${bucketSlug}/objects`;
 
 const Home = ({navigation}) => {
-  const data = [
-    {
-      id: "1",
-      img: img1,
-      name: "Demineralization Resin",
-      price: "$10/KG"
-    },
-    {
-      id: "2",
-      img: img2,
-      name: "Softening Resin",
-      price: "$15/KG"
-    },
-    {
-      id: "3",
-      img: img3,
-      name: "Iron Removal Resin",
-      price: "$30/KG"
-    },
-    {
-      id: "4",
-      img: img4,
-      name: "Ion Exchange Resin",
-      price: "$50/KG"
-    },
-    {
-      id: "5",
-      img: img5,
-      name: "Anion Resin",
-      price: "$20/KG"
-    },
-    {
-      id: "6",
-      img: img6,
-      name: "Cnc Wire Cut Edm",
-      price: "$25/KG"
-    },
-    {
-      id: "7",
-      img: img4,
-      name: "Ion Exchange Resin",
-      price: "$50/KG"
-    },
-    {
-      id: "8",
-      img: img5,
-      name: "Anion Resin",
-      price: "$20/KG"
-    },
-    {
-      id: "9",
-      img: img6,
-      name: "Cnc Wire Cut Edm",
-      price: "$25/KG"
-    },
-  ];
+  // const data = [
+  //   {
+  //     id: "1",
+  //     img: img1,
+  //     name: "Demineralization Resin",
+  //     price: "$10/KG"
+  //   },
+  //   {
+  //     id: "2",
+  //     img: img2,
+  //     name: "Softening Resin",
+  //     price: "$15/KG"
+  //   },
+  //   {
+  //     id: "3",
+  //     img: img3,
+  //     name: "Iron Removal Resin",
+  //     price: "$30/KG"
+  //   },
+  //   {
+  //     id: "4",
+  //     img: img4,
+  //     name: "Ion Exchange Resin",
+  //     price: "$50/KG"
+  //   },
+  //   {
+  //     id: "5",
+  //     img: img5,
+  //     name: "Anion Resin",
+  //     price: "$20/KG"
+  //   },
+  //   {
+  //     id: "6",
+  //     img: img6,
+  //     name: "Cnc Wire Cut Edm",
+  //     price: "$25/KG"
+  //   },
+  //   {
+  //     id: "7",
+  //     img: img4,
+  //     name: "Ion Exchange Resin",
+  //     price: "$50/KG"
+  //   },
+  //   {
+  //     id: "8",
+  //     img: img5,
+  //     name: "Anion Resin",
+  //     price: "$20/KG"
+  //   },
+  //   {
+  //     id: "9",
+  //     img: img6,
+  //     name: "Cnc Wire Cut Edm",
+  //     price: "$25/KG"
+  //   },
+  // ];
 
-  const limitedData = data.slice(0, 6);
+  // const limitedData = data.slice(0, 6);
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('product', {product: item})} style={styles.itemContainer}>
-      <Image source={item.img} style={styles.itemImage} />
-      <Text style={styles.itemName}>{item.name}</Text>
-      <Text style={styles.itemPrice}>{item.price}</Text>
+  // const renderItem = ({ item }) => (
+  //   <TouchableOpacity onPress={() => navigation.navigate('product', {product: item})} style={styles.itemContainer}>
+  //     <Image source={item.img} style={styles.itemImage} />
+  //     <Text style={styles.itemName}>{item.name}</Text>
+  //     <Text style={styles.itemPrice}>{item.price}</Text>
+  //   </TouchableOpacity>
+  // );
+
+  const [data, setData] = useState([]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(apiUrl, {
+            params: {
+              query: JSON.stringify({ type: objectType }),
+              read_key: cosmicReadKey,
+              depth: 2,
+              props: 'slug,title,metadata',
+            }
+          });
+  
+          const datas = response.data.objects.map(data => ({
+            id: data._id,
+            title: data.title,
+            img: data.metadata.img.url,
+            doc: data.metadata.doc.url,
+          }));
+  
+          setData(datas);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+  
+      fetchData();
+    }, []);
+  
+    const openLink = (url) => {
+      Linking.openURL(url);
+    };
+  
+    const renderItem = ({ item }) => (
+      <TouchableOpacity onPress={() => navigation.navigate('product', { product: item })} style={styles.itemContainer}>
+      <Text style={styles.title}>{item.title}</Text>
+      <Image source={item.img} style={styles.image} />
     </TouchableOpacity>
-  );
+    );
+
 
   return (
     <View>
@@ -107,7 +154,7 @@ const Home = ({navigation}) => {
     <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
       <View style={styles.productP}>
         <FlatList
-          data={limitedData}
+          data={data}
           numColumns={2}
           renderItem={renderItem}
           keyExtractor={item => item.id}

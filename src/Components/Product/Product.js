@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Linking,
 } from "react-native";
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -13,6 +14,14 @@ import colors from "../Colors/Colors";
 
 const Product = ({ route, navigation }) => {
   const { product } = route.params;
+
+  const openLink = (url) => {
+    if (url) {
+      Linking.openURL(url).catch((err) => console.error("An error occurred", err));
+    } else {
+      console.error("Invalid URL:", url);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -29,7 +38,7 @@ const Product = ({ route, navigation }) => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>
-          <Image source={product.img} style={styles.productImage} />
+          <Image source={{uri:product.img}} style={styles.productImage} />
         </View>
         <View style={styles.specificationsContainer}>
           <Text style={styles.specificationsTitle}>Product Specifications</Text>
@@ -76,7 +85,9 @@ const Product = ({ route, navigation }) => {
         <TouchableOpacity style={styles.button1}>
           <Text style={styles.buttonText1}>Calculate</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button2}>
+        <TouchableOpacity style={styles.button2}
+          onPress={() => openLink(product.doc)}
+        >
           <Text style={styles.buttonText2}>Download</Text>
         </TouchableOpacity>
       </View>
