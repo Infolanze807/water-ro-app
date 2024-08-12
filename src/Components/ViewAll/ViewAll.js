@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import colors from '../Colors/Colors';
 
@@ -33,7 +33,7 @@ const ViewAll = ({route, navigation}) => {
               }}
             >
               <Image
-                source={item.img}
+                source={{uri:item.img}}
                 style={{ height: 100, width: 100, borderRadius: 15 }}
               />
               <View style={{ gap: 3, display: "flex" }}>
@@ -43,7 +43,7 @@ const ViewAll = ({route, navigation}) => {
                     fontSize: 17,
                   }}
                 >
-                  {item.name}
+                  {item.title}
                 </Text>
                 <Text style={{  fontSize: 15, color: "gray" }}>
                   {item.price}

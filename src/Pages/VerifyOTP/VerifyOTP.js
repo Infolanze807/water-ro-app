@@ -1,14 +1,27 @@
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Pressable, TextInput, Alert } from "react-native";
+import { View, Text, Image, ScrollView, StyleSheet,NativeSyntheticEvent, TouchableOpacity, Pressable, TextInput, Alert } from "react-native";
 import React, { useState } from "react";
 import img2 from "../../../assets/images/6538623.jpg";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import colors from "../../Components/Colors/Colors";
 import axios from "axios";
+// import OtpAutoFillViewManager from 'react-native-otp-auto-fill';
 
 export default function VerifyOTP({navigation}) {
 
   const [otp, setOtp] = useState('');
 
+  // const handleComplete = ({
+  //   nativeEvent: { code },
+  // }: NativeSyntheticEvent<{ code: string }>) => {
+  //   Alert.alert('OTP Code Received!', code);
+  // };
+
+  // // This is only needed once to get the Android Signature key for SMS body
+  // const handleOnAndroidSignature = ({
+  //   nativeEvent: { code },
+  // }: NativeSyntheticEvent<{ code: string }>) => {
+  //   console.log('Android Signature Key for SMS body:', code);
+  // };
   const handleVerify = async () => {
     try {
       const res = await axios.post('http://192.168.29.111:3000/auth/verify', {
@@ -47,9 +60,13 @@ export default function VerifyOTP({navigation}) {
                 keyboardType="phone-pad"
                 value={otp}
                 onChangeText={setOtp}
-                textContentType="oneTimeCode"
-                autoComplete="sms-otp"
               />
+              {/* <OtpAutoFillViewManager
+        onComplete={handleComplete}
+        onAndroidSignature={handleOnAndroidSignature}
+        style={styles.box}
+        length={6} // Define the length of OTP code. This is a must.
+      /> */}
             </View>
           </View>
         </View>

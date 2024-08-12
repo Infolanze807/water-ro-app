@@ -31,7 +31,7 @@ export default function HomeTabNavigation() {
     >
       <Tab.Screen name="Home" component={Home} options={{headerShown: false, headerTintColor: colors.white, headerStyle: {backgroundColor: colors.primary}}} />
       <Tab.Screen name="Calculator" component={Calculator} options={{headerShown: true}} />
-      <Tab.Screen name="Profile" component={Profile} options={{headerShown: true}} />
+      <Tab.Screen name="Profile" component={Profile} options={{headerShown: false}} />
     </Tab.Navigator>
   );
 }
