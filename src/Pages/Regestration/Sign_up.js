@@ -34,18 +34,16 @@ const Sign_up = ({ navigation }) => {
         city: city,
         mobile_number: `+91${mobileNumber}`,
       });
-      
-      // Log the full response
       console.log("Responsesssss:", response);
   
       if (response.data.status === true) {
-        Alert.alert("Success", response.data.message);  // Display success message from server
-        navigation.navigate("verify");
+        Alert.alert("Success", response.data.message); 
+        navigation.navigate("verify", { mobileNumber: `+91${mobileNumber}` });
       } else {
-        Alert.alert("Error", response.data.message);  // Display error message from server
+        Alert.alert("Error", response.data.message); 
       }
     } catch (error) {
-      console.log("Error Response:", error.response);  // Log error response for debugging
+      console.log("Error Response:", error.response); 
       Alert.alert("Error", error.response?.data?.message || "Server error");
     }
   };
@@ -118,7 +116,7 @@ const Sign_up = ({ navigation }) => {
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
         {/* <TouchableOpacity onPress={handleSignUp} style={styles.button}> */}
-        <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('Home')}>
+        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
 
           <Text className="text-white text-center text-base">Sign up</Text>
         </TouchableOpacity>

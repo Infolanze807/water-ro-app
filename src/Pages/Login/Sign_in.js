@@ -19,21 +19,23 @@ import axios from "axios";
 
 const Sign_in = ({ navigation }) => {
 
-  const [login, setLogin] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
 
   const handleLogin = async () => {
     try {
       const res = await axios.post('http://192.168.29.111:3000/auth/login', {
-        mobile_number: `+91${login}`,
+        mobile_number: `+91${mobileNumber}`,
       });
+      console.log("hdjw",res);
+      
       if (res.data.status === true) {
         Alert.alert("Success", res.data.message);  // Display success message from server
-        navigation.navigate("verify");
+        navigation.navigate("verify",{ mobileNumber: `+91${mobileNumber}` });
       } else {
         Alert.alert("Error", res.data.message);  // Display error message from server
       }
     } catch (error) {
-      console.log("Error Response:", error.res);  // Log error response for debugging
+      console.log("Error Responsepppppppppp:", error.res);  // Log error response for debugging
       Alert.alert("Error", error.res?.data?.message || "Server error");
     }
   }
@@ -55,8 +57,8 @@ const Sign_in = ({ navigation }) => {
                 placeholder="Enter Your Phone"
                 style={styles.textInput}
                 keyboardType="phone-pad"
-                value={login}
-                onChangeText={setLogin}
+                value={mobileNumber}
+                onChangeText={setMobileNumber}
               />
             </View>
           </View>

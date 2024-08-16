@@ -2,6 +2,7 @@ import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet } from 'react
 import React from 'react'
 import { Ionicons } from "@expo/vector-icons";
 import colors from '../../Components/Colors/Colors';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Profile = ({navigation}) => {
@@ -35,7 +36,7 @@ const Profile = ({navigation}) => {
       name: "Logout",
       icon: "log-out",
       action: async () => {
-        await signOut();
+        
       },
     },
   ];
