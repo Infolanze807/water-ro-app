@@ -33,7 +33,7 @@ const ViewAll = ({route, navigation}) => {
               }}
             >
               <Image
-                source={{uri:item.img}}
+                source={{uri:item.coverimg}}
                 style={{ height: 100, width: 100, borderRadius: 15 }}
               />
               <View style={{ gap: 3, display: "flex" }}>

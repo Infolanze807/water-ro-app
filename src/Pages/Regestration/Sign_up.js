@@ -116,7 +116,9 @@ const Sign_up = ({ navigation }) => {
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
         {/* <TouchableOpacity onPress={handleSignUp} style={styles.button}> */}
-        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+        <TouchableOpacity style={styles.button} onPress={()=>{
+          navigation.navigate('Home')
+        }}>
 
           <Text className="text-white text-center text-base">Sign up</Text>
         </TouchableOpacity>

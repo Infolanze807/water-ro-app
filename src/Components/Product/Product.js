@@ -7,13 +7,18 @@ import {
   StyleSheet,
   Linking,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import colors from "../Colors/Colors";
 
 const Product = ({ route, navigation }) => {
   const { product } = route.params;
+
+  useEffect(()=>{
+    console.log("data",product);
+    
+  })
 
   const openLink = (url) => {
     if (url) {
@@ -38,7 +43,7 @@ const Product = ({ route, navigation }) => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>
-          <Image source={{uri:product.img}} style={styles.productImage} />
+          <Image source={{uri:product.detailimg}} style={styles.productImage} />
         </View>
         <View style={styles.specificationsContainer}>
           <Text style={styles.specificationsTitle}>Product Specifications</Text>
@@ -57,7 +62,7 @@ const Product = ({ route, navigation }) => {
               <Text style={styles.specificationLabel}>Product Brochure</Text>
             </View>
             <View>
-              <Text style={styles.specificationValue}>{product.name}</Text>
+              <Text style={styles.specificationValue}>{product.title}</Text>
               <Text style={styles.specificationValue}>{product.price}</Text>
               <Text style={styles.specificationValue}>90 L</Text>
               <Text style={styles.specificationValue}>India</Text>
@@ -86,7 +91,7 @@ const Product = ({ route, navigation }) => {
           <Text style={styles.buttonText1}>Calculate</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button2}
-          onPress={() => openLink(product.doc)}
+          onPress={() => openLink(product.productdoc)}
         >
           <Text style={styles.buttonText2}>Download</Text>
         </TouchableOpacity>
