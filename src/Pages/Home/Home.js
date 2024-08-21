@@ -13,6 +13,12 @@ const apiUrl = `https://api.cosmicjs.com/v3/buckets/${bucketSlug}/objects`;
 const Home = ({ navigation }) => {
   const [data, setData] = useState([]);
 
+    const selectedDatas=data.slice(0,6);
+    
+    useEffect(()=>{
+      console.log("selected",selectedDatas);
+    })
+    
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -79,7 +85,7 @@ const Home = ({ navigation }) => {
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.productP}>
           <FlatList
-            data={data}
+            data={selectedDatas}
             numColumns={2}
             renderItem={renderItem}
             keyExtractor={item => item.id}
