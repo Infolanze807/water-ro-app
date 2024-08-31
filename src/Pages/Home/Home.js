@@ -13,12 +13,8 @@
 // const Home = ({ navigation }) => {
 //   const [data, setData] = useState([]);
 
-//     const selectedDatas=data.slice(0,6);
-    
-//     useEffect(()=>{
-//       console.log("selected",selectedDatas);
-//     })
-    
+//   const selectedDatas = data.slice(0, 6);
+
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
@@ -39,7 +35,6 @@
 //           productdoc: data.metadata.product_doc.url,
 //         }));
 //         console.log(datas);
-        
 
 //         setData(datas);
 //       } catch (error) {
@@ -58,19 +53,14 @@
 //   );
 
 //   return (
-//     <View>
-//       <View style={styles.mainContainer}>
-//         <View style={styles.userHeader}>
-//           <View style={styles.userIcon}>
-//             <Text style={styles.userIconText}>N</Text>
-//           </View>
-//           <View style={styles.userName}>
-//             <Text style={styles.userText}>Welcome</Text>
-//             <Text style={styles.userNameText}>Infolanze Tech</Text>
-//           </View>
+//     <View style={{backgroundColor:colors.white}}>
+//       <View style={styles.headerContainer}>
+//         <View style={styles.welcomeContainer}>
+//           <Text style={styles.welcomeText}>Welcome</Text>
+//           <Text style={styles.companyText}>Infolanze Tech</Text>
 //         </View>
-//         <View style={styles.homeIcon}>
-//           <Octicons name="home" size={24} color={colors.white} />
+//         <View style={styles.iconContainer}>
+//           <Octicons name="home" size={28} color={colors.primary} />
 //         </View>
 //       </View>
 //       <View style={styles.imageContainer}>
@@ -103,52 +93,48 @@
 //   scrollView: {
 //     backgroundColor: 'white',
 //   },
-//   mainContainer: {
-//     backgroundColor: colors.primary,
+//   headerContainer: {
+//     backgroundColor: colors.white,
 //     paddingHorizontal: 20,
+//     paddingVertical: 35,
 //     display: 'flex',
 //     flexDirection: 'row',
 //     justifyContent: 'space-between',
 //     alignItems: 'center',
-//     paddingTop: 50,
-//     paddingBottom: 19,
 //     borderBottomRightRadius: 25,
 //     borderBottomLeftRadius: 25,
+//     elevation: 5,
 //   },
-//   userHeader: {
-//     display: 'flex',
-//     flexDirection: 'row',
-//     gap: 12,
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
+//   welcomeContainer: {
+//     flexDirection: 'column',
 //   },
-//   userIcon: {
+//   welcomeText: {
+//     fontSize: 18,
+//     color: colors.primary,
+//     fontWeight: '500',
+//   },
+//   companyText: {
+//     fontSize: 22,
+//     fontWeight: '700',
+//     color: colors.secondary,
+//   },
+//   iconContainer: {
+//     backgroundColor: colors.lightGray,
 //     padding: 10,
-//     paddingHorizontal: 17,
-//     borderRadius: 99,
-//     backgroundColor: colors.white,
-//   },
-//   userIconText: {
-//     fontSize: 20,
-//     fontWeight: "600",
-//   },
-//   userName: {},
-//   userText: {
-//     fontSize: 15,
-//     color: colors.white,
-//   },
-//   userNameText: {
-//     fontSize: 20,
-//     fontWeight: "500",
-//     color: colors.white,
+//     borderRadius: 15,
 //   },
 //   imageContainer: {
+//     paddingTop:20,
+//     padding:10,
+
+//     // paddingBottom:20,
 //     height: "21%",
 //     width: '100%',
 //   },
 //   headerImage: {
 //     height: '100%',
 //     width: '100%',
+//     borderRadius:10
 //   },
 //   productP: {
 //     paddingBottom: 320,
@@ -194,9 +180,8 @@
 //   image: {
 //     height: 100,
 //     width: 100,
-//     borderRadius: 10, 
-//     // borderColor: colors.primary, 
-//     borderWidth: 2, 
+//     borderRadius: 10,
+//     borderWidth: 2,
 //     resizeMode: 'cover',
 //   },
 //   itemName: {
@@ -211,7 +196,6 @@
 // });
 
 // export default Home;
-
 
 import { View, Text, Image, FlatList, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
@@ -243,11 +227,12 @@ const Home = ({ navigation }) => {
         });
 
         const datas = response.data.objects.map(data => ({
-          id: data._id,
+          // id: data._id,
           title: data.title,
           coverimg: data.metadata.cover_img.url,
           detailimg: data.metadata.detail_img.url,
           productdoc: data.metadata.product_doc.url,
+          productdesc: data.metadata.product_desc,  // Added productdesc here
         }));
         console.log(datas);
 
@@ -268,7 +253,7 @@ const Home = ({ navigation }) => {
   );
 
   return (
-    <View style={{backgroundColor:colors.white}}>
+    <View style={{ backgroundColor: colors.white }}>
       <View style={styles.headerContainer}>
         <View style={styles.welcomeContainer}>
           <Text style={styles.welcomeText}>Welcome</Text>
@@ -339,17 +324,15 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   imageContainer: {
-    paddingTop:20,
-    padding:10,
-
-    // paddingBottom:20,
-    height: "21%",
+    paddingTop: 20,
+    padding: 10,
+    height: '21%',
     width: '100%',
   },
   headerImage: {
     height: '100%',
     width: '100%',
-    borderRadius:10
+    borderRadius: 10,
   },
   productP: {
     paddingBottom: 320,
@@ -378,7 +361,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     width: 150,
-    height: 190,
+    height: 220,  // Adjusted height to fit description
     padding: 8,
     borderColor: '#d1d5db',
     backgroundColor: 'white',
@@ -399,14 +382,16 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     resizeMode: 'cover',
   },
-  itemName: {
+  title: {
     marginTop: 8,
-    fontSize: 12,
-    fontWeight: '500',
+    fontSize: 14,
+    fontWeight: '600',
   },
-  itemPrice: {
-    color: 'black',
+  productDesc: {
+    marginTop: 4,
     fontSize: 12,
+    color: '#4B5563',  // Grey color for description text
+    textAlign: 'center',
   },
 });
 

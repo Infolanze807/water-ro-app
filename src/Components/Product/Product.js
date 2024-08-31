@@ -63,8 +63,8 @@ const Product = ({ route, navigation }) => {
             </View>
             <View>
               <Text style={styles.specificationValue}>{product.title}</Text>
-              <Text style={styles.specificationValue}>{product.price}</Text>
-              <Text style={styles.specificationValue}>90 L</Text>
+              <Text style={styles.specificationValue}>{product.productdesc.value.price}</Text>
+              <Text style={styles.specificationValue}>{product.productdesc.value.cooler_type}</Text>
               <Text style={styles.specificationValue}>India</Text>
               <Text style={styles.specificationValue}>Desert</Text>
               <Text style={styles.specificationValue}>60 ft</Text>

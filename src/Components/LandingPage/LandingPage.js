@@ -27,8 +27,8 @@ const LandingPage = ({navigation}) => {
       </View>
       <View style={styles.secondContainer}>
         <View style={styles.mainSecond}>
-          <Text style={styles.mainMain}>Welcome to Doshion Poly Science Pvt. Ltd.</Text>
-          <Text style={styles.subMain}>Your most realiable resource for all your Water RO plant</Text>
+          <Text style={styles.mainMain}>Doshion Techcenter</Text>
+          <Text style={styles.subMain}>Technology in to your hands</Text>
         </View>
         <View style={styles.subSecond}>
           <TouchableOpacity style={styles.button} onPress={() => {
