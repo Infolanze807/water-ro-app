@@ -54,7 +54,7 @@ const Sign_up = ({ navigation }) => {
       <View className="mx-auto pt-16">
         <Image className="w-52 h-52" source={img2} alt="Image" />
       </View>
-      <Text className="text-center text-3xl font-semibold">
+      <Text className="text-center text-3xl font-semibold font-[outfit-medium]">
         Create an Account
       </Text>
       <View className="px-10 pt-6">
@@ -120,7 +120,7 @@ const Sign_up = ({ navigation }) => {
           navigation.navigate('Home')
         }}>
 
-          <Text className="text-white text-center text-base">Sign up</Text>
+          <Text className="text-white text-center text-base font-[outfit]">Sign up</Text>
         </TouchableOpacity>
       </View>
       <View className="flex flex-row gap-6 justify-center mt-5">
@@ -129,7 +129,7 @@ const Sign_up = ({ navigation }) => {
         <Entypo1 name="linkedin-with-circle" size={28} color={colors.primary} />
       </View>
           <Pressable className="flex flex-row mx-auto pt-7">
-          <Text>Already have an account?</Text>
+          <Text className='font-[outfit]'>Already have an account?</Text>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("sign-in");
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
   },
   SignIn: {
     color: colors.primary,
+    fontFamily:"outfit"
   },
   fieldset: {
     borderWidth: 1,
@@ -175,6 +176,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     fontSize: 12,
     color: "#4B5563", 
+    fontFamily:'outfit'
   },
   inputContainer: {
     flexDirection: "row",
@@ -186,11 +188,13 @@ const styles = StyleSheet.create({
   prefix: {
     paddingLeft: 5,
     fontSize: 16,
+    fontFamily:'outfit'
   },
   textInput: {
     flex: 1,
     fontSize: 16,
     paddingLeft: 6,
+    fontFamily:'outfit'
   },
 });
 export default Sign_up;

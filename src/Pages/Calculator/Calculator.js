@@ -116,10 +116,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 26,
-    fontWeight: 'bold',
     textAlign:'center',
     marginBottom: 20,
     color: colors.primary,
+    fontFamily:'outfit-bold'
   },
   inputContainer: {
     width: '100%',
@@ -129,6 +129,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
     color: colors.text,
+    fontFamily:'outfit'
+
   },
   input: {
     height: 45,
@@ -138,6 +140,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontSize: 16,
     color: colors.text,
+    fontFamily:'outfit'
   },
   pickerContainer: {
     borderColor: colors.border,
@@ -161,11 +164,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily:'outfit'
   },
   resultsContainer: {
     width: '100%',
     marginTop: 30,
+    fontFamily:'outfit'
   },
   resultItem: {
     borderBottomColor: colors.border,
@@ -176,10 +180,11 @@ const styles = StyleSheet.create({
   resultLabel: {
     fontSize: 16,
     color: colors.textSecondary,
+    fontFamily:'outfit'
   }, 
   resultValue: {
     fontSize: 16,
-    fontWeight: 'bold',
     color: colors.text,
+    fontFamily:'outfit'
   },
 });

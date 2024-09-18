@@ -45,7 +45,7 @@ const Sign_in = ({ navigation }) => {
       <View className="mx-auto pt-32">
         <Image className="w-52 h-52" source={img2} alt="Image" />
       </View>
-      <Text className="text-center text-3xl font-semibold">Let's Sign In</Text>
+      <Text className="text-center text-3xl font-semibold font-[outfit-medium]">Let's Sign In</Text>
       <View className="px-10 pt-6">
         <View style={styles.container}>
           <View style={styles.fieldset}>
@@ -66,10 +66,13 @@ const Sign_in = ({ navigation }) => {
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
         <TouchableOpacity
+          // onPress={()=>{
+          //   navigation.navigate("verify");
+          // }}
           onPress={handleLogin}
           style={styles.button}
         >
-          <Text className="text-white text-center text-base">Sign In</Text>
+          <Text className="text-white text-center text-base font-[outfit]">Sign In</Text>
         </TouchableOpacity>
       </View>
       <View className="flex flex-row gap-6 justify-center mt-5">
@@ -78,7 +81,7 @@ const Sign_in = ({ navigation }) => {
         <Entypo1 name="linkedin-with-circle" size={28} color={colors.primary} />
       </View>
         <Pressable className="flex flex-row mx-auto pt-8">
-          <Text>Don't have an account?</Text>
+          <Text className='font-[outfit]'>Don't have an account?</Text>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("sign-up");
@@ -109,7 +112,8 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   SignUp: {
-    color: colors.primary
+    color: colors.primary,
+    fontFamily:'outfit'
   },  
   fieldset: {
     borderWidth: 1,
@@ -125,11 +129,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 5,
     fontSize: 12,
-    color: "#4B5563", // gray-700
+    color: "#4B5563", // gray-700,
+    fontFamily:'outfit'
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
+    fontFamily:'outfit'
   },
   icon: {
     marginRight: 8,
@@ -137,6 +143,7 @@ const styles = StyleSheet.create({
   prefix: {
     paddingLeft: 5,
     fontSize: 16,
+    fontFamily:'outfit'
   },
   textInput: {
     flex: 1,

@@ -115,8 +115,9 @@ const styles= StyleSheet.create({
    },
    mainMain: {
     fontSize: 28,
-    fontWeight: '700',
+    // fontWeight: '700',
     textAlign: 'center',
+    fontFamily:'outfit-bold'
    },
    subMain: {
     fontSize: 14,
@@ -124,6 +125,7 @@ const styles= StyleSheet.create({
     paddingTop: 3,
     color: colors.gray,
     paddingHorizontal: 15,
+    fontFamily:'outfit-medium'
    },
    button: {
     backgroundColor: colors.primary,
@@ -136,6 +138,8 @@ const styles= StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     fontWeight: "600",
+    fontFamily:'outfit'
+
    },
    mainLogin: {
     display: 'flex',
@@ -145,8 +149,11 @@ const styles= StyleSheet.create({
    },
    subLogin: {
     color: colors.gray,
+    fontFamily:'outfit'
+
    },
    login: {
+    fontFamily:'outfit',
     color: colors.primary,
    },
 })

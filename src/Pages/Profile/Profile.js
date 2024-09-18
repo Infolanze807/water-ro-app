@@ -44,7 +44,10 @@ const Profile = ({navigation}) => {
     <View style={{backgroundColor:'white',height:'100%'}}>
       <View style={{ padding: 20, backgroundColor:colors.primary,borderBottomLeftRadius:30,borderBottomRightRadius:30}}>
         <Text
-          style={{ fontSize: 26, color: "white",marginTop:10 }}
+          style={{ fontSize: 26, color: "white",marginTop:10,
+    fontFamily:'outfit'
+
+           }}
         >
           Profile
         </Text>
@@ -64,6 +67,8 @@ const Profile = ({navigation}) => {
             style={{
               fontSize: 26,
               color: "white",
+    fontFamily:'outfit-medium'
+
             }}
           >
            Infolanze Tech
@@ -72,6 +77,8 @@ const Profile = ({navigation}) => {
             style={{
               fontSize: 18,
               color: "white",
+    fontFamily:'outfit'
+
             }}
           >
             techteam.infolanze@gmail.com
@@ -95,7 +102,10 @@ const Profile = ({navigation}) => {
               
             >
               <Ionicons name={item.icon} size={35} color={colors.primary} />
-              <Text style={{  fontSize: 20 }}>
+              <Text style={{  fontSize: 20,
+    fontFamily:'outfit'
+
+               }}>
                 {item.name}
               </Text>
             </TouchableOpacity>
