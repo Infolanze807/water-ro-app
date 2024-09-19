@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     marginLeft: 6,
     color: colors.white,
+    fontFamily:'outfit-medium'
   },
   shareButton: {
     paddingTop: 8,
@@ -147,6 +148,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginBottom: 12,
     textAlign: "center",
+    fontFamily:'outfit'
   },
   specifications: {
     flexDirection: "row",
@@ -156,9 +158,11 @@ const styles = StyleSheet.create({
   specificationLabel: {
     color: "gray",
     fontSize: 16,
+    fontFamily:'outfit'
   },
   specificationValue: {
     fontSize: 16,
+    fontFamily:'outfit'
   },
   footer: {
     position: "absolute",

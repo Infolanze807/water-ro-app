@@ -66,5 +66,6 @@ const styles = StyleSheet.create({
   },
   product: {
     color: colors.white,
+    fontFamily:'outfit'
   },
 })

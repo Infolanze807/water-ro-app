@@ -99,11 +99,11 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: "bold",
     textAlign: "center",
     marginBottom: 20,
     color: colors.black,
     paddingTop: 10,
+    fontFamily:'outfit-medium'
   },
   form: {
     backgroundColor: "rgba(255, 255, 255, 0.9)",
@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 10,
     marginBottom: 25,
     backgroundColor: "white",
+    fontFamily:'outfit'
   },
   sendButton: {
     backgroundColor: colors.primary,
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
   },
   text:{
     color:colors.primary,
-    fontWeight:'600',
+    fontFamily:'outfit-medium',
     fontSize:13
   }
 });
