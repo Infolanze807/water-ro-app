@@ -16,7 +16,7 @@ export default function HomeTabNavigation() {
         tabBarIcon: ({ focused, color }) => {
           let iconName;
 
-          if (route.name === 'Home') {
+          if (route.name === 'HomeTab') {
             iconName = 'house-chimney';
           } else if (route.name === 'Calculator') {
             iconName = 'calculator';
@@ -30,7 +30,7 @@ export default function HomeTabNavigation() {
       })}
     >
       <Tab.Screen 
-        name="Home" 
+        name="HomeTab" 
         component={Home} 
         options={{
           headerShown: false,
@@ -45,7 +45,7 @@ export default function HomeTabNavigation() {
         name="Calculator" 
         component={Calculator} 
         options={{
-          headerShown: true,
+          headerShown: false,
           tabBarLabel: ({ focused }) => (
             <Text style={[styles.tabLabel, focused && styles.focusedLabel]}>Calculator</Text>
           ),

@@ -1,71 +1,109 @@
-import { View, Text, ScrollView, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native'
-import React, { useEffect } from 'react'
-import Ionicons from '@expo/vector-icons/Ionicons';
-import colors from '../Colors/Colors';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  Image,
+  StyleSheet,
+} from "react-native";
+import React from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import colors from "../Colors/Colors";
 
-
-const ViewAll = ({route, navigation}) => {
-
-      const { data} = route.params;
+const ViewAll = ({ route, navigation }) => {
+  const { data } = route.params;
 
   return (
-    <View className='pt-9' style={styles.container}>
-      <View className="flex flex-row items-center px-3 py-1.5">
-          <TouchableOpacity onPress={() => navigation.goBack('-1')}>
-            <Ionicons name="arrow-back" size={28} color={colors.white} />
-          </TouchableOpacity>
-          <Text className="text-2xl ml-2.5 font-semibold" style={styles.product}>Products</Text>
-        </View>
-        <View className='bg-white px-2'>
-        <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 5,display:'flex', padding:10, marginBottom:88 }}>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={28} color={colors.white} />
+        </TouchableOpacity>
+        <Text style={styles.product}>Products</Text>
+      </View>
+      <View style={styles.listContainer}>
         <FlatList
           data={data}
+          keyExtractor={(item) => item.title}
+          showsVerticalScrollIndicator= {false} // Use a unique key for each item
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigation.navigate('product', {product: item})}
-              style={{
-                padding: 10,
-                backgroundColor: colors.lightGray,
-                borderRadius: 15,
-                marginBottom: 15,
-                flexDirection: "row",
-                gap: 20,
-                alignItems:'center'
-              }}
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("product", { product: item })
+              }
+              style={styles.itemContainer}
             >
               <Image
-                source={{uri:item.coverimg}}
-                style={{ height: 100, width: 100, borderRadius: 15 }}
+                source={{ uri: item.detailimg }}
+                style={styles.image}
               />
-              <View style={{ gap: 3, display: "flex" }}>
-                <Text
-                  style={{
-                    
-                    fontSize: 17,
-                  }}
-                >
-                  {item.title}
-                </Text>
-                <Text style={{  fontSize: 15, color: "gray" }}>
-                  {item.price}
-                </Text>
+              <View style={styles.textContainer}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.subtitle}>{item.productdesc.title2}</Text>
+                <Text style={styles.description}>{item.productdesc.desc}</Text>
               </View>
             </TouchableOpacity>
           )}
         />
-      </ScrollView>
-        </View>
+      </View>
     </View>
-  )
-}
+  );
+};
 
 export default ViewAll;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: colors.primary,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    paddingTop:40
+
   },
   product: {
     color: colors.white,
-    fontFamily:'outfit'
+    fontFamily: "outfit",
+    fontSize: 24,
+    marginLeft: 10,
   },
-})
+  listContainer: {
+    backgroundColor: colors.white,
+    // paddingHorizontal: 10,
+    padding:15
+  },
+  itemContainer: {
+    padding: 10,
+    backgroundColor: colors.lightGray,
+    borderRadius: 15,
+    marginBottom: 15,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  image: {
+    height: 110,
+    width: 130,
+    flex: 0.4,
+  },
+  textContainer: {
+    flex: 0.6,
+    paddingLeft: 10,
+  },
+  title: {
+    fontSize: 17,
+    fontFamily: "outfit",
+  },
+  subtitle: {
+    fontSize: 13,
+    color: colors.black,
+    fontFamily: "outfit",
+  },
+  description: {
+    fontSize: 9.8,
+    color: colors.gray,
+    fontFamily: "outfit",
+  },
+});

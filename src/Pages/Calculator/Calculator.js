@@ -14,6 +14,15 @@ const Calculator = () => {
   };
 
   return (
+    <View>
+      <View style={{backgroundColor:colors.white}}>
+        <Text style={{ fontWeight: "500",
+    fontSize: 23,
+    marginLeft: 6,
+    paddingTop:35,
+    color: colors.black,
+    fontFamily: "outfit-medium",}}>Calculator</Text>
+      </View>
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.card}>
         <Text style={styles.title}>Water Treatment Calculator</Text>
@@ -81,6 +90,7 @@ const Calculator = () => {
         </View>
       </View>
     </ScrollView>
+    </View>
   );
 };
 
@@ -100,6 +110,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.background,
     padding: 20,
+    paddingBottom:80
   },
   card: {
     width: '100%',

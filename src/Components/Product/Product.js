@@ -15,14 +15,15 @@ import colors from "../Colors/Colors";
 const Product = ({ route, navigation }) => {
   const { product } = route.params;
 
-  useEffect(()=>{
-    console.log("data",product);
-    
-  })
+  useEffect(() => {
+    console.log("data", product);
+  });
 
   const openLink = (url) => {
     if (url) {
-      Linking.openURL(url).catch((err) => console.error("An error occurred", err));
+      Linking.openURL(url).catch((err) =>
+        console.error("An error occurred", err)
+      );
     } else {
       console.error("Invalid URL:", url);
     }
@@ -43,54 +44,40 @@ const Product = ({ route, navigation }) => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>
-          <Image source={{uri:product.detailimg}} style={styles.productImage} />
+          <Image
+            source={{ uri: product.detailimg }}
+            style={styles.productImage}
+          />
         </View>
         <View style={styles.specificationsContainer}>
-          <Text style={styles.specificationsTitle}>Product Specifications</Text>
+          <Text style={styles.specificationsTitle}>PDP Tags</Text>
           <View style={styles.specifications}>
-            <View>
-              <Text style={styles.specificationLabel}>Product Name</Text>
-              <Text style={styles.specificationLabel}>Price</Text>
-              <Text style={styles.specificationLabel}>Tank Capacity</Text>
-              <Text style={styles.specificationLabel}>Country of Origin</Text>
-              <Text style={styles.specificationLabel}>Cooler Type</Text>
-              <Text style={styles.specificationLabel}>Air throw coverage</Text>
-              <Text style={styles.specificationLabel}>Brand</Text>
-              <Text style={styles.specificationLabel}>Material</Text>
-              <Text style={styles.specificationLabel}>Minimum Order</Text>
-              <Text style={styles.specificationLabel}>Quantity</Text>
-              <Text style={styles.specificationLabel}>Product Brochure</Text>
-            </View>
-            <View>
-              <Text style={styles.specificationValue}>{product.title}</Text>
-              <Text style={styles.specificationValue}>{product.productdesc.value.price}</Text>
-              <Text style={styles.specificationValue}>{product.productdesc.value.cooler_type}</Text>
-              <Text style={styles.specificationValue}>India</Text>
-              <Text style={styles.specificationValue}>Desert</Text>
-              <Text style={styles.specificationValue}>60 ft</Text>
-              <Text style={styles.specificationValue}>Powerteck</Text>
-              <Text style={styles.specificationValue}>ABS</Text>
-              <Text style={styles.specificationValue}>10</Text>
-              <Text style={styles.specificationValue}>20</Text>
-              <Text style={styles.specificationValue}>PDF</Text>
-              <Text style={styles.specificationValue}>PDF</Text>
-              <Text style={styles.specificationValue}>PDF</Text>
-              <Text style={styles.specificationValue}>PDF</Text>
-              <Text style={styles.specificationValue}>PDF</Text>
-              <Text style={styles.specificationValue}>PDF</Text>
-              <Text style={styles.specificationValue}>PDF</Text>
-              <Text style={styles.specificationValue}>PDF</Text>
-              <Text style={styles.specificationValue}>PDF</Text>
-              <Text style={styles.specificationValue}>PDF</Text>
-            </View>
+            <Text style={styles.tags}>{product.pdptags.tag1}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag2}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag3}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag4}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag5}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag6}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag7}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag8}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag9}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag10}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag11}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag12}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag13}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag14}</Text>
+            <Text style={styles.tags}>{product.pdptags.tag15}</Text>
           </View>
         </View>
       </ScrollView>
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.button1}>
+        <TouchableOpacity style={styles.button1} onPress={()=>{
+          navigation.navigate('calculator')
+        }}>
           <Text style={styles.buttonText1}>Calculate</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button2}
+        <TouchableOpacity
+          style={styles.button2}
           onPress={() => openLink(product.productdoc)}
         >
           <Text style={styles.buttonText2}>Download</Text>
@@ -125,7 +112,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     marginLeft: 6,
     color: colors.white,
-    fontFamily:'outfit-medium'
+    fontFamily: "outfit-medium",
   },
   shareButton: {
     paddingTop: 8,
@@ -144,25 +131,41 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   specificationsTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "500",
     marginBottom: 12,
     textAlign: "center",
-    fontFamily:'outfit'
+    fontFamily: "outfit-bold",
+  },
+  tags: {
+    backgroundColor: colors.lightGray,
+    borderWidth: 1,
+    borderColor:colors.gray,
+    padding: 5,
+    borderRadius: 50,
+    fontFamily: 'outfit',
+    marginVertical:3,
+    paddingHorizontal:7,
+    color:colors.black,
+    // margin:5
   },
   specifications: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingBottom: 20,
+    // flexDirection: "row",
+    flexDirection: 'row', // This will allow tags to align in a row
+    flexWrap: 'wrap',
+    gap:5,
+    display:'flex',
+    // justifyContent: "space-between",
+    paddingBottom: 85,
   },
   specificationLabel: {
     color: "gray",
     fontSize: 16,
-    fontFamily:'outfit'
+    fontFamily: "outfit",
   },
   specificationValue: {
     fontSize: 16,
-    fontFamily:'outfit'
+    fontFamily: "outfit",
   },
   footer: {
     position: "absolute",
