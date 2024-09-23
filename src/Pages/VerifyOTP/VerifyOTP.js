@@ -4,37 +4,19 @@ import img2 from "../../../assets/images/6538623.jpg";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import colors from "../../Components/Colors/Colors";
 import axios from "axios";
-// import OtpAutoFillViewManager from 'react-native-otp-auto-fill';
+import { API_URL } from '@env';
 
 export default function VerifyOTP({navigation,route}) {
 
   const mobileNumber = route.params?.mobileNumber;
   const [otp, setOtp] = useState('');
 
- 
-  // const handleVerify = async () => {
-  //   try {
-  //     const res = await axios.post('http://192.168.29.111:3000/auth/verify', {
-  //       mobile_number:mobileNumber,
-  //       otp: otp
-  //     });
-  //     if (res.data.status === true) {
-  //       Alert.alert("Success", res.data.message); 
-  //       navigation.navigate("Home");
-  //     } else {
-  //       Alert.alert("Error", res.data.message); 
-  //     }
-  //   } catch (error) {
-  //     console.log("Error Response:", error.res); 
-  //     Alert.alert("Error", error.res?.data?.message || "Server error");
-  //   }
-  // }
 
   const handleVerify = async (isRegistered) => {
     try {
       const endpoint = isRegistered
-        ? 'http://192.168.0.106:3000/auth/verify'
-        : 'http://192.168.0.106:3000/auth/verify-login';
+        ? `${API_URL}/auth/verify`
+        : `${API_URL}/auth/verify-login`;
   
       const res = await axios.post(endpoint, {
         mobile_number: mobileNumber,
@@ -83,10 +65,10 @@ export default function VerifyOTP({navigation,route}) {
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
         <TouchableOpacity style={styles.button}
-         onPress={()=>{
-          navigation.navigate("Home");
-        }}
-        // onPress={handleVerify}
+        //  onPress={()=>{
+        //   navigation.navigate("Home");
+        // }}
+        onPress={handleVerify}
         >
           <Text className="text-white text-center text-base font-[outfit]">Verify</Text>
         </TouchableOpacity>

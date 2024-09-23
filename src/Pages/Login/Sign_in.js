@@ -16,27 +16,35 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import img2 from "../../../assets/images/5191079.jpg";
 import colors from "../../Components/Colors/Colors";
 import axios from "axios";
+import { API_URL } from '@env';
+
 
 const Sign_in = ({ navigation }) => {
 
   const [mobileNumber, setMobileNumber] = useState('');
 
   const handleLogin = async () => {
+    if ( !mobileNumber) {
+      Alert.alert("Error", "All fields are required.");
+      return;
+    }
     try {
-      const res = await axios.post('http://192.168.0.106:3000/auth/login', {
+      const res = await axios.post(`${API_URL}/auth/login`, {
         mobile_number: `+91${mobileNumber}`,
       });
-      console.log("hdjw",res);
+      console.log("hIfosklajdjw",res);
       
       if (res.data.status === true) {
-        Alert.alert("Success", res.data.message);  // Display success message from server
+        Alert.alert("Success", res.data.message);  
         navigation.navigate("verify",{ mobileNumber: `+91${mobileNumber}` });
-      } else {
-        Alert.alert("Error", res.data.message);  // Display error message from server
+      }
+      else {
+        Alert.alert("Error", res.data.message); 
       }
     } catch (error) {
-      console.log("Error Responsepppppppppp:", error.res);  // Log error response for debugging
-      Alert.alert("Error", error.res?.data?.message || "Server error");
+      console.log("Error Responsepppppppppp:", error); 
+      console.log("Error hello:", error.message);
+      Alert.alert("Error", error.response?.data?.message || "Server error");
     }
   }
 
@@ -53,7 +61,7 @@ const Sign_in = ({ navigation }) => {
             <View style={styles.inputContainer}>
               <Entypo name="phone" size={18} color="gray" style={styles.icon} />
               <Text style={styles.prefix}>+91</Text>
-              <TextInput
+              <TextInput 
                 placeholder="Enter Your Phone"
                 style={styles.textInput}
                 keyboardType="phone-pad"
@@ -66,10 +74,10 @@ const Sign_in = ({ navigation }) => {
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
         <TouchableOpacity
-          onPress={()=>{
-            navigation.navigate("verify");
-          }}
-          // onPress={handleLogin}
+          // onPress={()=>{
+          //   navigation.navigate("verify");
+          // }}
+          onPress={handleLogin}
           style={styles.button}
         >
           <Text className="text-white text-center text-base font-[outfit]">Sign In</Text>

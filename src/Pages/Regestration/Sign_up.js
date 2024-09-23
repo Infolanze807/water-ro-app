@@ -16,6 +16,8 @@ import Entypo1 from "@expo/vector-icons/Entypo";
 import img2 from "../../../assets/images/6368592.jpg";
 import colors from "../../Components/Colors/Colors";
 import axios from "axios";
+import { API_URL } from '@env';
+
 
 const Sign_up = ({ navigation }) => {
   const [companyName, setCompanyName] = useState("");
@@ -29,7 +31,7 @@ const Sign_up = ({ navigation }) => {
     }
   
     try {
-      const response = await axios.post("http://192.168.0.106:3000/auth/register", {
+      const response = await axios.post(`${API_URL}/auth/register`, {
         company_name: companyName,
         city: city,
         mobile_number: `+91${mobileNumber}`,
