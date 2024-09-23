@@ -19,7 +19,8 @@ const Calculator = () => {
         <Text style={{ fontWeight: "500",
     fontSize: 23,
     marginLeft: 6,
-    paddingTop:35,
+    paddingTop:40,
+    paddingBottom:5,
     color: colors.black,
     fontFamily: "outfit-medium",}}>Calculator</Text>
       </View>

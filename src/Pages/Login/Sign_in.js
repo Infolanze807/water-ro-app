@@ -23,7 +23,7 @@ const Sign_in = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://192.168.29.111:3000/auth/login', {
+      const res = await axios.post('http://192.168.0.106:3000/auth/login', {
         mobile_number: `+91${mobileNumber}`,
       });
       console.log("hdjw",res);
@@ -66,10 +66,10 @@ const Sign_in = ({ navigation }) => {
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
         <TouchableOpacity
-          // onPress={()=>{
-          //   navigation.navigate("verify");
-          // }}
-          onPress={handleLogin}
+          onPress={()=>{
+            navigation.navigate("verify");
+          }}
+          // onPress={handleLogin}
           style={styles.button}
         >
           <Text className="text-white text-center text-base font-[outfit]">Sign In</Text>

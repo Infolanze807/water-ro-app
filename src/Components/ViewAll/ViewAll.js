@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
+    paddingBottom:70
   },
   header: {
     flexDirection: "row",
@@ -84,12 +85,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    height: 110,
+    height: 120,
     width: 130,
-    flex: 0.4,
+    flex: 0.45,
   },
   textContainer: {
-    flex: 0.6,
+    flex: 0.55,
     paddingLeft: 10,
   },
   title: {

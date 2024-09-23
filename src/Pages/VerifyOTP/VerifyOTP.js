@@ -33,8 +33,8 @@ export default function VerifyOTP({navigation,route}) {
   const handleVerify = async (isRegistered) => {
     try {
       const endpoint = isRegistered
-        ? 'http://192.168.29.111:3000/auth/verify'
-        : 'http://192.168.29.111:3000/auth/verify-login';
+        ? 'http://192.168.0.106:3000/auth/verify'
+        : 'http://192.168.0.106:3000/auth/verify-login';
   
       const res = await axios.post(endpoint, {
         mobile_number: mobileNumber,
@@ -77,18 +77,17 @@ export default function VerifyOTP({navigation,route}) {
                 value={otp}
                 onChangeText={setOtp}
               />
-              {/* <OtpAutoFillViewManager
-        onComplete={handleComplete}
-        onAndroidSignature={handleOnAndroidSignature}
-        style={styles.box}
-        length={6} // Define the length of OTP code. This is a must.
-      /> */}
             </View>
           </View>
         </View>
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
-        <TouchableOpacity style={styles.button} onPress={handleVerify}>
+        <TouchableOpacity style={styles.button}
+         onPress={()=>{
+          navigation.navigate("Home");
+        }}
+        // onPress={handleVerify}
+        >
           <Text className="text-white text-center text-base font-[outfit]">Verify</Text>
         </TouchableOpacity>
       </View>

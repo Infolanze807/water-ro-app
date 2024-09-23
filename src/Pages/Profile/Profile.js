@@ -2,7 +2,6 @@ import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet } from 'react
 import React from 'react'
 import { Ionicons } from "@expo/vector-icons";
 import colors from '../../Components/Colors/Colors';
-import { useNavigation } from '@react-navigation/native';
 
 
 const Profile = ({navigation}) => {
@@ -12,7 +11,7 @@ const Profile = ({navigation}) => {
       name: "Home",
       icon: "home",
       action: () => {
-        navigation.navigate('Home');
+        navigation.navigate('HomeTab');
       },
     },
     {
@@ -36,21 +35,14 @@ const Profile = ({navigation}) => {
       name: "Logout",
       icon: "log-out",
       action: async () => {
-        
+        navigation.navigate('sign-up')
       },
     },
   ];
   return (
     <View style={{backgroundColor:'white',height:'100%'}}>
       <View style={{ padding: 20, backgroundColor:colors.primary,borderBottomLeftRadius:30,borderBottomRightRadius:30}}>
-        <Text
-          style={{ fontSize: 26, color: "white",marginTop:10,
-    fontFamily:'outfit'
-
-           }}
-        >
-          Profile
-        </Text>
+        
         <View
           style={{
             display: "flex",

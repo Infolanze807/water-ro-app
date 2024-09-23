@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import React, { useEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import colors from "../Colors/Colors";
 
 const Product = ({ route, navigation }) => {
@@ -38,9 +37,6 @@ const Product = ({ route, navigation }) => {
           </TouchableOpacity>
           <Text style={styles.headerText}>Product Details</Text>
         </View>
-        <TouchableOpacity style={styles.shareButton}>
-          <FontAwesome name="share-square-o" size={20} color={colors.white} />
-        </TouchableOpacity>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>
@@ -80,7 +76,7 @@ const Product = ({ route, navigation }) => {
           style={styles.button2}
           onPress={() => openLink(product.productdoc)}
         >
-          <Text style={styles.buttonText2}>Download</Text>
+          <Text style={styles.buttonText2}>Download PDF</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -123,7 +119,7 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width: "100%",
-    height: 290,
+    height: 310,
   },
   specificationsContainer: {
     paddingTop: 20,

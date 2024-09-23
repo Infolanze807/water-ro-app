@@ -29,7 +29,7 @@ const Sign_up = ({ navigation }) => {
     }
   
     try {
-      const response = await axios.post("http://192.168.29.111:3000/auth/register", {
+      const response = await axios.post("http://192.168.0.106:3000/auth/register", {
         company_name: companyName,
         city: city,
         mobile_number: `+91${mobileNumber}`,
@@ -43,7 +43,7 @@ const Sign_up = ({ navigation }) => {
         Alert.alert("Error", response.data.message); 
       }
     } catch (error) {
-      console.log("Error Response:", error.response); 
+      console.log("Error Response:", error); 
       Alert.alert("Error", error.response?.data?.message || "Server error");
     }
   };
@@ -118,7 +118,7 @@ const Sign_up = ({ navigation }) => {
         {/* <TouchableOpacity onPress={handleSignUp} style={styles.button}> */}
         <TouchableOpacity style={styles.button} onPress={()=>{
           navigation.navigate('Home')
-        }}>
+        }}> 
 
           <Text className="text-white text-center text-base font-[outfit]">Sign up</Text>
         </TouchableOpacity>

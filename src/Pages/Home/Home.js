@@ -3,16 +3,15 @@ import {
   Text,
   Image,
   FlatList,
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import img from "../../../assets/images/water-filters-glasses-water-ice.jpg";
+import img from "../../../assets/images/BANNER.jpg";
 import colors from "../../Components/Colors/Colors";
 import Octicons from "@expo/vector-icons/Octicons";
 import axios from "axios";
-import logo from "../../../assets/images/Vanilla.png";
+import logo from "../../../assets/images/logomain2.png";
 
 const bucketSlug = "dashboard-production";
 const objectType = "products";
@@ -64,7 +63,7 @@ const Home = ({ navigation }) => {
       >
         <Image source={{ uri: item.detailimg }} style={styles.image} />
         <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.title}>{item.productdesc?.title2}</Text>
+        <Text style={styles.title2}>{item.productdesc?.title2}</Text>
       </TouchableOpacity>
     );
   };
@@ -81,12 +80,12 @@ const Home = ({ navigation }) => {
           <Image
             source={logo}
             style={{
-              height: 70,
-              width: 70,
+              height: 23,
+              width: 120,
               backgroundColor: "white",
-              borderWidth: 1,
-              borderColor: colors.gray,
-              borderRadius: 99,
+              // borderWidth: 1,
+              // borderColor: colors.gray,
+              // borderRadius: 99,
             }}
           />
         </View>
@@ -219,6 +218,13 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 8,
     fontSize: 14,
+    fontWeight: "600",
+    fontFamily: "outfit",
+    textAlign: "center",
+  },
+  title2: {
+    marginTop: 8,
+    fontSize: 11,
     fontWeight: "600",
     fontFamily: "outfit",
     textAlign: "center",
