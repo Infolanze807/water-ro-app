@@ -12,13 +12,7 @@ import colors from "../../Components/Colors/Colors";
 import Octicons from "@expo/vector-icons/Octicons";
 import axios from "axios";
 import logo from "../../../assets/images/logomain2.png";
-// import { OBJECT_TYPE,COSMIC_READKEY,APIURL } from '@env';
-
-
-const bucketSlug = "dashboard-production";
-const objectType = "products";
-const cosmicReadKey = "ccoIwYVf1HWujfu3nTptWHrCq8qidSApj6XJ0pyOJfjVDBDzWp";
-const apiUrl = `https://api.cosmicjs.com/v3/buckets/${bucketSlug}/objects`;
+import { OBJECT_TYPE,COSMIC_READKEY,APIURL } from '@env';
 
 const Home = ({ navigation }) => {
   const [data, setData] = useState([]);
@@ -28,10 +22,10 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(apiUrl, {
+        const response = await axios.get(APIURL, {
           params: {
-            query: JSON.stringify({ type: objectType }),
-            read_key: cosmicReadKey,
+            query: JSON.stringify({ type: OBJECT_TYPE }),
+            read_key: COSMIC_READKEY,
             depth: 2,
             props: "slug,title,metadata",
           },
