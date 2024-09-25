@@ -51,20 +51,17 @@ const Product = ({ route, navigation }) => {
             <Text style={styles.tags}>{product.pdptags.tag1}</Text>
             <Text style={styles.tags}>{product.pdptags.tag2}</Text>
             <Text style={styles.tags}>{product.pdptags.tag3}</Text>
-            <Text style={styles.tags}>{product.pdptags.tag4}</Text>
-            <Text style={styles.tags}>{product.pdptags.tag5}</Text>
-            <Text style={styles.tags}>{product.pdptags.tag6}</Text>
-            <Text style={styles.tags}>{product.pdptags.tag7}</Text>
-            <Text style={styles.tags}>{product.pdptags.tag8}</Text>
-            <Text style={styles.tags}>{product.pdptags.tag9}</Text>
-            <Text style={styles.tags}>{product.pdptags.tag10}</Text>
-            <Text style={styles.tags}>{product.pdptags.tag11}</Text>
-            <Text style={styles.tags}>{product.pdptags.tag12}</Text>
-            <Text style={styles.tags}>{product.pdptags.tag13}</Text>
-            <Text style={styles.tags}>{product.pdptags.tag14}</Text>
-            <Text style={styles.tags}>{product.pdptags.tag15}</Text>
           </View>
+          <View style={{backgroundColor:colors.white,marginTop:-60}}>
+        <Text style={{fontSize: 20,
+    fontWeight: "500",
+    marginBottom: 12,
+    textAlign: "center",
+    fontFamily: "outfit-bold",}}>Description</Text>
+        <Text style={{fontFamily: "outfit",}}>{product.productdesc.desc}</Text>
         </View>
+        </View>
+        
       </ScrollView>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.button1} onPress={()=>{
@@ -88,8 +85,7 @@ export default Product;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 42,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
   },
   header: {
     flexDirection: "row",
@@ -102,6 +98,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 15,
     paddingBottom: 9,
+    backgroundColor:colors.primary,
+    paddingTop:40
   },
   headerText: {
     fontWeight: "500",
@@ -147,11 +145,10 @@ const styles = StyleSheet.create({
   },
   specifications: {
     // flexDirection: "row",
-    flexDirection: 'row', // This will allow tags to align in a row
+    flexDirection: 'row',
     flexWrap: 'wrap',
     gap:5,
     display:'flex',
-    // justifyContent: "space-between",
     paddingBottom: 85,
   },
   specificationLabel: {

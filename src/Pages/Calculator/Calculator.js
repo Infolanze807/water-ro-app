@@ -72,9 +72,10 @@ const Calculator = () => {
               style={styles.picker}
               onValueChange={(itemValue) => setExchangeCapacity(itemValue)}
             >
-              <Picker.Item label="55" value="55" />
-              <Picker.Item label="60" value="60" />
-              <Picker.Item label="65" value="65" />
+              <Picker.Item label="Eco 44" value="Eco 44" />
+              <Picker.Item label="CSA 9NA" value="CSA 9NA" />
+              <Picker.Item label="CSA 9D" value="CSA 9D" />
+              <Picker.Item label="CSA 121" value="CSA 121" />
             </Picker>
           </View>
         </View>
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.background,
     padding: 20,
-    paddingBottom:80
+    paddingBottom:100
   },
   card: {
     width: '100%',
