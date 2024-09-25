@@ -1,4 +1,4 @@
-import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import { Ionicons } from "@expo/vector-icons";
 import colors from '../../Components/Colors/Colors';
@@ -40,7 +40,7 @@ const Profile = ({navigation}) => {
     },
   ];
   return (
-    <View style={{backgroundColor:'white',height:'100%'}}>
+    <ScrollView style={{backgroundColor:'white',height:'100%'}}>
       <View style={{ padding: 20, backgroundColor:colors.primary,borderBottomLeftRadius:30,borderBottomRightRadius:30}}>
         
         <View
@@ -104,7 +104,7 @@ const Profile = ({navigation}) => {
           )}
         />
       </View>
-    </View>
+    </ScrollView>
   )
 }
 

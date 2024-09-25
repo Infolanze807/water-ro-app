@@ -5,14 +5,14 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import img from "../../../assets/images/BANNER.jpg";
 import colors from "../../Components/Colors/Colors";
-import Octicons from "@expo/vector-icons/Octicons";
 import axios from "axios";
 import logo from "../../../assets/images/logomain2.png";
-import { OBJECT_TYPE,COSMIC_READKEY,APIURL } from '@env';
+import { OBJECT_TYPE, COSMIC_READKEY, APIURL } from "@env";
 
 const Home = ({ navigation }) => {
   const [data, setData] = useState([]);
@@ -38,7 +38,6 @@ const Home = ({ navigation }) => {
           productdesc: data.metadata.product_desc,
           pdptags: data.metadata.product_desc.PDPTags,
         }));
-        // console.log("fsdiiiiif", data);
 
         setData(datas);
       } catch (error) {
@@ -50,8 +49,6 @@ const Home = ({ navigation }) => {
   }, []);
 
   const renderItem = ({ item }) => {
-    // console.log("dataaaaaaaaaaaqqq", item.productdesc);
-
     return (
       <TouchableOpacity
         onPress={() => navigation.navigate("product", { product: item })}
@@ -65,30 +62,30 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <View style={{ backgroundColor: colors.white }}>
+    <ScrollView style={{ backgroundColor: colors.white }} showsVerticalScrollIndicator={false}>
+      {/* Header and Image */}
       <View style={styles.headerContainer}>
         <View style={styles.welcomeContainer}>
           <Text style={styles.welcomeText}>Welcome</Text>
           <Text style={styles.companyText}>Infolanze Tech</Text>
         </View>
         <View style={styles.iconContainer}>
-          {/* <Octicons name="home" size={28} color={colors.primary} /> */}
           <Image
             source={logo}
             style={{
               height: 23,
               width: 120,
               backgroundColor: "white",
-              // borderWidth: 1,
-              // borderColor: colors.gray,
-              // borderRadius: 99,
             }}
           />
         </View>
       </View>
+
       <View style={styles.imageContainer}>
         <Image source={img} style={styles.headerImage} />
       </View>
+
+      {/* Product Header */}
       <View style={styles.mainProduct}>
         <Text style={styles.headerText}>Products</Text>
         <TouchableOpacity
@@ -98,29 +95,28 @@ const Home = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <FlatList
-        data={selectedDatas}
-        numColumns={2}
-        renderItem={renderItem}
-        keyExtractor={(item,index) => item.id || index.toString()}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.flatListContent}
-      />
-    </View>
+      {/* FlatList with nested scrolling */}
+      <View style={styles.flatListContainer}>
+        <FlatList
+          data={selectedDatas}
+          numColumns={2}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          scrollEnabled={false}  // Disable scrolling in FlatList to avoid conflict
+          contentContainerStyle={styles.flatListContent}
+        />
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
-    height: "100%",
-    backgroundColor: "white",
-  },
   headerContainer: {
     backgroundColor: colors.white,
     paddingHorizontal: 20,
     paddingVertical: 35,
-    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -143,15 +139,13 @@ const styles = StyleSheet.create({
     fontFamily: "outfit-bold",
   },
   iconContainer: {
-    // backgroundColor: colors.lightGray,
-    // padding: 10,
     paddingVertical: 10,
     borderRadius: 15,
   },
   imageContainer: {
     paddingTop: 20,
     padding: 10,
-    height: "21%",
+    height: 200,
     width: "100%",
   },
   headerImage: {
@@ -159,15 +153,10 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 10,
   },
-  productP: {
-    // paddingBottom: 320,
-    backgroundColor: "#f3f4f6",
-  },
   mainProduct: {
     backgroundColor: "white",
     paddingHorizontal: 20,
     paddingVertical: 10,
-    // display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -182,15 +171,16 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontFamily: "outfit-medium",
   },
-  flatListContent: {
-    // justifyContent: "center",
-    alignItems: "center",
+  flatListContainer: {
     backgroundColor: colors.lightGray,
-    paddingBottom: 360,
+    paddingBottom: 20,
+  },
+  flatListContent: {
+    alignItems: "center",
   },
   itemContainer: {
     width: 150,
-    height: 220, // Adjusted height to fit description
+    height: 220,
     padding: 8,
     borderColor: "#d1d5db",
     backgroundColor: "white",
@@ -207,8 +197,6 @@ const styles = StyleSheet.create({
   image: {
     height: 110,
     width: 135,
-    // borderRadius: 10,
-    // borderWidth: 2,
     resizeMode: "cover",
   },
   title: {
@@ -223,12 +211,6 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "600",
     fontFamily: "outfit",
-    textAlign: "center",
-  },
-  productDesc: {
-    marginTop: 4,
-    fontSize: 12,
-    color: "#4B5563", // Grey color for description text
     textAlign: "center",
   },
 });

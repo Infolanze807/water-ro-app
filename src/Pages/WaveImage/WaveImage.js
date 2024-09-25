@@ -1,26 +1,23 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Image, Animated, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import img from '../../../assets/images/Vanilla.png'; // Ensure this path is correct
+import img from "../../../assets/images/logomain2.png"; // Ensure this path is correct
 
 const WaveImage = () => {
-  const navigation = useNavigation(); // Hook to access navigation
-  const scaleValue = useRef(new Animated.Value(0)).current; // Start with scale of 0 (small)
+  const navigation = useNavigation(); 
+  const scaleValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // Start the scaling animation
     Animated.timing(scaleValue, {
-      toValue: 1, // Scale to original size
-      duration: 2000, // Duration of the animation (2 seconds)
+      toValue: 1, 
+      duration: 2000, 
       useNativeDriver: true,
     }).start();
 
-    // Redirect to landing page after 3 seconds
     const timer = setTimeout(() => {
-      navigation.replace('landingpage'); // Redirect to LandingPage
-    }, 3000); // Adjust time as needed
+      navigation.replace('landingpage'); 
+    }, 3000); 
 
-    // Cleanup the timer on unmount
     return () => clearTimeout(timer);
   }, [scaleValue, navigation]);
 
