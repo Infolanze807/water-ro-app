@@ -5,7 +5,10 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
   ScrollView,
+  BackHandler,
+  Alert
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import img from "../../../assets/images/BANNER.jpg";
@@ -16,6 +19,7 @@ import { OBJECT_TYPE, COSMIC_READKEY, APIURL } from "@env";
 
 const Home = ({ navigation }) => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const selectedDatas = data.slice(0, 6);
 
@@ -42,10 +46,27 @@ const Home = ({ navigation }) => {
         setData(datas);
       } catch (error) {
         console.error("Error fetching data:", error);
+      }finally {
+        setLoading(false); 
       }
     };
 
     fetchData();
+
+    const backAction = () => {
+      Alert.alert("Hold on!", "Do you want to exit the app?", [
+        { text: "Cancel", onPress: () => null, style: "cancel" },
+        { text: "YES", onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
   }, []);
 
   const renderItem = ({ item }) => {
@@ -62,8 +83,10 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: colors.white }} showsVerticalScrollIndicator={false}>
-      {/* Header and Image */}
+    <ScrollView
+      style={{ backgroundColor: colors.white }}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.headerContainer}>
         <View style={styles.welcomeContainer}>
           <Text style={styles.welcomeText}>Welcome</Text>
@@ -85,7 +108,6 @@ const Home = ({ navigation }) => {
         <Image source={img} style={styles.headerImage} />
       </View>
 
-      {/* Product Header */}
       <View style={styles.mainProduct}>
         <Text style={styles.headerText}>Products</Text>
         <TouchableOpacity
@@ -95,19 +117,22 @@ const Home = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      {/* FlatList with nested scrolling */}
       <View style={styles.flatListContainer}>
-        <FlatList
-          data={selectedDatas}
-          numColumns={2}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          scrollEnabled={false}  // Disable scrolling in FlatList to avoid conflict
-          contentContainerStyle={styles.flatListContent}
-        />
-      </View>
+  {loading ? (
+    <ActivityIndicator size="large" color={colors.primary} />
+  ) : (
+    <FlatList
+      data={selectedDatas}
+      numColumns={2}
+      renderItem={renderItem}
+      keyExtractor={(item, index) => index.toString()}
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      scrollEnabled={false}
+      contentContainerStyle={styles.flatListContent}
+    />
+  )}
+</View>
     </ScrollView>
   );
 };
@@ -116,7 +141,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: colors.white,
     paddingHorizontal: 20,
-    paddingVertical: 35,
+    paddingVertical: 30,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -145,7 +170,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     paddingTop: 20,
     padding: 10,
-    height: 200,
+    height: 230,
     width: "100%",
   },
   headerImage: {

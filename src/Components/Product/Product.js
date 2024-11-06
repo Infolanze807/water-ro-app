@@ -52,21 +52,31 @@ const Product = ({ route, navigation }) => {
             <Text style={styles.tags}>{product.pdptags.tag2}</Text>
             <Text style={styles.tags}>{product.pdptags.tag3}</Text>
           </View>
-          <View style={{backgroundColor:colors.white,marginTop:-60}}>
-        <Text style={{fontSize: 20,
-    fontWeight: "500",
-    marginBottom: 12,
-    textAlign: "center",
-    fontFamily: "outfit-bold",}}>Description</Text>
-        <Text style={{fontFamily: "outfit",}}>{product.productdesc.desc}</Text>
+          <View style={{ backgroundColor: colors.white, marginTop: -60 }}>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "500",
+                marginBottom: 12,
+                textAlign: "center",
+                fontFamily: "outfit-bold",
+              }}
+            >
+              Description
+            </Text>
+            <Text style={{ fontFamily: "outfit" }}>
+              {product.productdesc.desc}
+            </Text>
+          </View>
         </View>
-        </View>
-        
       </ScrollView>
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.button1} onPress={()=>{
-          navigation.navigate('calculator')
-        }}>
+        <TouchableOpacity
+          style={styles.button1}
+          onPress={() => {
+            navigation.navigate("calculator");
+          }}
+        >
           <Text style={styles.buttonText1}>Calculate</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -96,10 +106,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 15,
+    paddingHorizontal: 8,
     paddingBottom: 9,
-    backgroundColor:colors.primary,
-    paddingTop:40
+    backgroundColor: colors.primary,
+    paddingTop: 12,
   },
   headerText: {
     fontWeight: "500",
@@ -134,21 +144,21 @@ const styles = StyleSheet.create({
   tags: {
     backgroundColor: colors.lightGray,
     borderWidth: 1,
-    borderColor:colors.gray,
+    borderColor: colors.gray,
     padding: 5,
     borderRadius: 50,
-    fontFamily: 'outfit',
-    marginVertical:3,
-    paddingHorizontal:7,
-    color:colors.black,
+    fontFamily: "outfit",
+    marginVertical: 3,
+    paddingHorizontal: 7,
+    color: colors.black,
     // margin:5
   },
   specifications: {
     // flexDirection: "row",
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap:5,
-    display:'flex',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 5,
+    display: "flex",
     paddingBottom: 85,
   },
   specificationLabel: {

@@ -25,18 +25,13 @@ const ViewAll = ({ route, navigation }) => {
         <FlatList
           data={data}
           keyExtractor={(item) => item.title}
-          showsVerticalScrollIndicator= {false} // Use a unique key for each item
+          showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("product", { product: item })
-              }
+              onPress={() => navigation.navigate("product", { product: item })}
               style={styles.itemContainer}
             >
-              <Image
-                source={{ uri: item.detailimg }}
-                style={styles.image}
-              />
+              <Image source={{ uri: item.detailimg }} style={styles.image} />
               <View style={styles.textContainer}>
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.subtitle}>{item.productdesc.title2}</Text>
@@ -56,14 +51,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-    paddingBottom:70
+    paddingBottom: 50,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-    paddingTop:40
-
+    paddingTop: 12,
   },
   product: {
     color: colors.white,
@@ -74,7 +68,7 @@ const styles = StyleSheet.create({
   listContainer: {
     backgroundColor: colors.white,
     // paddingHorizontal: 10,
-    padding:15
+    padding: 15,
   },
   itemContainer: {
     padding: 10,
@@ -87,10 +81,10 @@ const styles = StyleSheet.create({
   image: {
     height: 120,
     width: 130,
-    flex: 0.45,
+    flex: 0.52,
   },
   textContainer: {
-    flex: 0.55,
+    flex: 0.48,
     paddingLeft: 10,
   },
   title: {

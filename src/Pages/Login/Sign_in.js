@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ActivityIndicator
 } from "react-native";
 import React, { useState } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -16,15 +17,16 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import img2 from "../../../assets/images/5191079.jpg";
 import colors from "../../Components/Colors/Colors";
 import axios from "axios";
-import { API_URL } from '@env';
-
+import { API_URL } from "@env";
 
 const Sign_in = ({ navigation }) => {
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [mobileNumber, setMobileNumber] = useState('');
+  const isRegistered = 1;
 
   const handleLogin = async () => {
-    if ( !mobileNumber) {
+    if (!mobileNumber) {
       Alert.alert("Error", "All fields are required.");
       return;
     }
@@ -32,28 +34,37 @@ const Sign_in = ({ navigation }) => {
       const res = await axios.post(`${API_URL}/auth/login`, {
         mobile_number: `+91${mobileNumber}`,
       });
-      console.log("hIfosklajdjw",res);
-      
+      console.log("hIfosklajdjw", res);
+
+      setLoading(true);
+
       if (res.data.status === true) {
-        Alert.alert("Success", res.data.message);  
-        navigation.navigate("verify",{ mobileNumber: `+91${mobileNumber}` });
-      }
-      else {
-        Alert.alert("Error", res.data.message); 
+        Alert.alert("Success", res.data.message);
+        navigation.navigate("verify", {
+          mobileNumber: `+91${mobileNumber}`,
+          isRegistered,
+        });
+        setMobileNumber("");
+      } else {
+        Alert.alert("Error", res.data.message);
       }
     } catch (error) {
-      console.log("Error Responsepppppppppp:", error); 
+      console.log("Error Responsepppppppppp:", error);
       console.log("Error hello:", error.message);
-      Alert.alert("Error", error.response?.data?.message || "Server error");
+      Alert.alert("", error.response?.data?.message || "Server error");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <ScrollView className="bg-white">
-      <View className="mx-auto pt-32">
+      <View className="mx-auto pt-28">
         <Image className="w-52 h-52" source={img2} alt="Image" />
       </View>
-      <Text className="text-center text-3xl font-semibold font-[outfit-medium]">Let's Sign In</Text>
+      <Text className="text-center text-3xl font-semibold font-[outfit-medium]">
+        Let's Sign In
+      </Text>
       <View className="px-10 pt-6">
         <View style={styles.container}>
           <View style={styles.fieldset}>
@@ -61,7 +72,7 @@ const Sign_in = ({ navigation }) => {
             <View style={styles.inputContainer}>
               <Entypo name="phone" size={18} color="gray" style={styles.icon} />
               <Text style={styles.prefix}>+91</Text>
-              <TextInput 
+              <TextInput
                 placeholder="Enter Your Phone"
                 style={styles.textInput}
                 keyboardType="phone-pad"
@@ -80,7 +91,13 @@ const Sign_in = ({ navigation }) => {
           onPress={handleLogin}
           style={styles.button}
         >
-          <Text className="text-white text-center text-base font-[outfit]">Sign In</Text>
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text className="text-white text-center text-base font-[outfit]">
+              Sign In
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
       <View className="flex flex-row gap-6 justify-center mt-5">
@@ -88,16 +105,16 @@ const Sign_in = ({ navigation }) => {
         <FontAwesome name="google-plus-official" size={28} color="red" />
         <Entypo1 name="linkedin-with-circle" size={28} color={colors.primary} />
       </View>
-        <Pressable className="flex flex-row mx-auto pt-8">
-          <Text className='font-[outfit]'>Don't have an account?</Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("sign-up");
-            }}
-          >
-            <Text style={styles.SignUp}> Sign Up</Text>
-          </TouchableOpacity>
-        </Pressable>
+      <Pressable className="flex flex-row mx-auto pt-8">
+        <Text className="font-[outfit]">Don't have an account?</Text>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("sign-up");
+          }}
+        >
+          <Text style={styles.SignUp}> Sign Up</Text>
+        </TouchableOpacity>
+      </Pressable>
     </ScrollView>
   );
 };
@@ -121,8 +138,8 @@ const styles = StyleSheet.create({
   },
   SignUp: {
     color: colors.primary,
-    fontFamily:'outfit'
-  },  
+    fontFamily: "outfit",
+  },
   fieldset: {
     borderWidth: 1,
     borderColor: "#D1D5DB",
@@ -137,13 +154,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 5,
     fontSize: 12,
-    color: "#4B5563", // gray-700,
-    fontFamily:'outfit'
+    color: "#4B5563",
+    fontFamily: "outfit",
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    fontFamily:'outfit'
+    fontFamily: "outfit",
   },
   icon: {
     marginRight: 8,
@@ -151,7 +168,7 @@ const styles = StyleSheet.create({
   prefix: {
     paddingLeft: 5,
     fontSize: 16,
-    fontFamily:'outfit'
+    fontFamily: "outfit",
   },
   textInput: {
     flex: 1,

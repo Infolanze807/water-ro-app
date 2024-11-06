@@ -8,6 +8,7 @@ import {
   Pressable,
   Image,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -16,20 +17,24 @@ import Entypo1 from "@expo/vector-icons/Entypo";
 import img2 from "../../../assets/images/6368592.jpg";
 import colors from "../../Components/Colors/Colors";
 import axios from "axios";
-import { API_URL } from '@env';
-
+import { API_URL } from "@env";
 
 const Sign_up = ({ navigation }) => {
   const [companyName, setCompanyName] = useState("");
   const [city, setCity] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const isRegistered = 0;
 
   const handleSignUp = async () => {
     if (!companyName || !city || !mobileNumber) {
       Alert.alert("Error", "All fields are required.");
       return;
     }
-  
+
+    setLoading(true);
+
     try {
       const response = await axios.post(`${API_URL}/auth/register`, {
         company_name: companyName,
@@ -37,23 +42,30 @@ const Sign_up = ({ navigation }) => {
         mobile_number: `+91${mobileNumber}`,
       });
       console.log("Responsesssss:", response);
-  
+
       if (response.data.status === true) {
-        Alert.alert("Success", response.data.message); 
-        navigation.navigate("verify", { mobileNumber: `+91${mobileNumber}` });
+        Alert.alert("Success", response.data.message);
+        navigation.navigate("verify", {
+          mobileNumber: `+91${mobileNumber}`,
+          isRegistered,
+        });
       } else {
-        Alert.alert("Error", response.data.message); 
+        Alert.alert("Error", response.data.message);
       }
+      setCompanyName("");
+      setCity("");
+      setMobileNumber("");
     } catch (error) {
-      console.log("Error Response:", error); 
+      console.log("Error Response:", error);
       Alert.alert("Error", error.response?.data?.message || "Server error");
+    } finally {
+      setLoading(false);
     }
   };
-  
 
   return (
     <ScrollView className="bg-white">
-      <View className="mx-auto pt-16">
+      <View className="mx-auto pt-12">
         <Image className="w-52 h-52" source={img2} alt="Image" />
       </View>
       <Text className="text-center text-3xl font-semibold font-[outfit-medium]">
@@ -72,7 +84,6 @@ const Sign_up = ({ navigation }) => {
                 keyboardType="phone-pad"
                 value={mobileNumber}
                 onChangeText={setMobileNumber}
-
               />
             </View>
           </View>
@@ -117,12 +128,18 @@ const Sign_up = ({ navigation }) => {
         </View>
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
-        {/* <TouchableOpacity onPress={handleSignUp} style={styles.button}> */}
-        <TouchableOpacity style={styles.button} onPress={()=>{
+        <TouchableOpacity onPress={handleSignUp} style={styles.button}>
+          {/* <TouchableOpacity style={styles.button} onPress={()=>{
           navigation.navigate('Home')
-        }}> 
+        }}>  */}
 
-          <Text className="text-white text-center text-base font-[outfit]">Sign up</Text>
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text className="text-white text-center text-base font-[outfit]">
+              Sign up
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
       <View className="flex flex-row gap-6 justify-center mt-5">
@@ -130,16 +147,16 @@ const Sign_up = ({ navigation }) => {
         <FontAwesome name="google-plus-official" size={28} color="red" />
         <Entypo1 name="linkedin-with-circle" size={28} color={colors.primary} />
       </View>
-          <Pressable className="flex flex-row mx-auto pt-7">
-          <Text className='font-[outfit]'>Already have an account?</Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("sign-in");
-            }}
-          >
-            <Text style={styles.SignIn}> Sign In</Text>
-          </TouchableOpacity>
-        </Pressable>
+      <Pressable className="flex flex-row mx-auto pt-7">
+        <Text className="font-[outfit]">Already have an account?</Text>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("sign-in");
+          }}
+        >
+          <Text style={styles.SignIn}> Sign In</Text>
+        </TouchableOpacity>
+      </Pressable>
     </ScrollView>
   );
 };
@@ -161,7 +178,7 @@ const styles = StyleSheet.create({
   },
   SignIn: {
     color: colors.primary,
-    fontFamily:"outfit"
+    fontFamily: "outfit",
   },
   fieldset: {
     borderWidth: 1,
@@ -177,8 +194,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 5,
     fontSize: 12,
-    color: "#4B5563", 
-    fontFamily:'outfit'
+    color: "#4B5563",
+    fontFamily: "outfit",
   },
   inputContainer: {
     flexDirection: "row",
@@ -190,13 +207,13 @@ const styles = StyleSheet.create({
   prefix: {
     paddingLeft: 5,
     fontSize: 16,
-    fontFamily:'outfit'
+    fontFamily: "outfit",
   },
   textInput: {
     flex: 1,
     fontSize: 16,
     paddingLeft: 6,
-    fontFamily:'outfit'
+    fontFamily: "outfit",
   },
 });
 export default Sign_up;
