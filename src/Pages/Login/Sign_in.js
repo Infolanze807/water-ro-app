@@ -85,10 +85,10 @@ const Sign_in = ({ navigation }) => {
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
         <TouchableOpacity
-          onPress={()=>{
-            navigation.navigate("Home");
-          }}
-          // onPress={handleLogin}
+          // onPress={()=>{
+          //   navigation.navigate("Home");
+          // }}
+          onPress={handleLogin}
           style={styles.button}
         >
           {loading ? (
