@@ -44,7 +44,7 @@ if (getRNMinorVersion() >= 75) {
   }
 }
 
-rootProject.name = 'water-ro-app'
+rootProject.name = 'Doshion TechCenter'
 
 dependencyResolutionManagement {
   versionCatalogs {

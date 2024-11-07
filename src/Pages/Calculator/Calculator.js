@@ -34,6 +34,9 @@ const Calculator = () => {
     } else {
       alert("Please enter valid numeric values for all inputs.");
     }
+    setFlow("");
+    setHardness("");
+    setHours("");
   };
 
   return (
