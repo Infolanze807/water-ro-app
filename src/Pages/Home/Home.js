@@ -16,10 +16,25 @@ import colors from "../../Components/Colors/Colors";
 import axios from "axios";
 import logo from "../../../assets/images/logomain2.png";
 import { OBJECT_TYPE, COSMIC_READKEY, APIURL } from "@env";
+import { useFocusEffect } from "@react-navigation/native";
+import { useAuth } from '../../Navigators/AuthContext'; 
+
 
 const Home = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { authData } = useAuth();
+  const { token, user } = authData;
+
+  useEffect(() => {
+    if (token && user) {
+      console.log("Token in Home:", token);
+      console.log("User in Home:", user);
+    } else {
+      console.log("No auth data available");
+    }
+  }, [token, user]);
 
   const selectedDatas = data.slice(0, 6);
 
@@ -52,22 +67,26 @@ const Home = ({ navigation }) => {
     };
 
     fetchData();
-
-    const backAction = () => {
-      Alert.alert("Hold on!", "Do you want to exit the app?", [
-        { text: "Cancel", onPress: () => null, style: "cancel" },
-        { text: "YES", onPress: () => BackHandler.exitApp() },
-      ]);
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-
-    return () => backHandler.remove();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const backAction = () => {
+        Alert.alert("Hold on!", "Do you want to exit the app?", [
+          { text: "Cancel", onPress: () => null, style: "cancel" },
+          { text: "YES", onPress: () => BackHandler.exitApp() },
+        ]);
+        return true;
+      };
+
+      const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+      );
+
+      return () => backHandler.remove();
+    }, [])
+  );
 
   const renderItem = ({ item }) => {
     return (
@@ -90,7 +109,7 @@ const Home = ({ navigation }) => {
       <View style={styles.headerContainer}>
         <View style={styles.welcomeContainer}>
           <Text style={styles.welcomeText}>Welcome</Text>
-          <Text style={styles.companyText}>Infolanze Tech</Text>
+          <Text style={styles.companyText}>{user?.company_name || "User"}</Text>
         </View>
         <View style={styles.iconContainer}>
           <Image

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Image, Animated, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import img from "../../../assets/images/logomain2.png"; // Ensure this path is correct
+import img from "../../../assets/images/logomain2.png";
 
 const WaveImage = () => {
   const navigation = useNavigation(); 

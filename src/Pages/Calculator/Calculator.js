@@ -11,13 +11,29 @@ import { Picker } from "@react-native-picker/picker";
 import colors from "../../Components/Colors/Colors";
 
 const Calculator = () => {
-  const [exchangeCapacity, setExchangeCapacity] = useState("55");
+  const [exchangeCapacity, setExchangeCapacity] = useState("");
   const [flow, setFlow] = useState("");
   const [hours, setHours] = useState("");
   const [hardness, setHardness] = useState("");
+  const [resinQuantity, setResinQuantity] = useState(0);
+  const [obr, setObr] = useState(0);
+  const [saltRequired, setSaltRequired] = useState(0);
+  const [waterRequired, setWaterRequired] = useState(0);
 
   const handleCalculate = () => {
-    // Add your calculation logic here
+    // Convert inputs to numbers
+    const flowValue = parseFloat(flow);
+    const hoursValue = parseFloat(hours);
+    const hardnessValue = parseFloat(hardness);
+
+    if (!isNaN(flowValue) && !isNaN(hoursValue) && !isNaN(hardnessValue)) {
+      setResinQuantity(flowValue * hoursValue);
+      setObr(hoursValue * hardnessValue);
+      setSaltRequired(flowValue * hardnessValue);
+      setWaterRequired((flowValue * hoursValue) / hardnessValue);
+    } else {
+      alert("Please enter valid numeric values for all inputs.");
+    }
   };
 
   return (
@@ -98,15 +114,15 @@ const Calculator = () => {
           </TouchableOpacity>
 
           <View style={styles.resultsContainer}>
-            <Result label="Resin quantity (Liters)" value="0" />
-            <Result label="OBR (Liters)" value="0" />
+            <Result label="Resin quantity (Liters)" value={resinQuantity} />
+            <Result label="OBR (Liters)" value={obr} />
             <Result
               label="Salt required for regeneration (Kg NaCl)"
-              value="0"
+              value={saltRequired}
             />
             <Result
               label="Water required for regeneration (Liters)"
-              value="0"
+              value={waterRequired}
             />
           </View>
         </View>

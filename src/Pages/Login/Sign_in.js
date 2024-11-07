@@ -85,10 +85,10 @@ const Sign_in = ({ navigation }) => {
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
         <TouchableOpacity
-          // onPress={()=>{
-          //   navigation.navigate("verify");
-          // }}
-          onPress={handleLogin}
+          onPress={()=>{
+            navigation.navigate("Home");
+          }}
+          // onPress={handleLogin}
           style={styles.button}
         >
           {loading ? (
@@ -100,11 +100,11 @@ const Sign_in = ({ navigation }) => {
           )}
         </TouchableOpacity>
       </View>
-      <View className="flex flex-row gap-6 justify-center mt-5">
+      {/* <View className="flex flex-row gap-6 justify-center mt-5">
         <Entypo name="twitter-with-circle" size={28} color={colors.primary} />
         <FontAwesome name="google-plus-official" size={28} color="red" />
         <Entypo1 name="linkedin-with-circle" size={28} color={colors.primary} />
-      </View>
+      </View> */}
       <Pressable className="flex flex-row mx-auto pt-8">
         <Text className="font-[outfit]">Don't have an account?</Text>
         <TouchableOpacity

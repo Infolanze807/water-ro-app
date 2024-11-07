@@ -17,10 +17,12 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import colors from "../../Components/Colors/Colors";
 import axios from "axios";
 import { API_URL } from "@env";
+import { useAuth } from '../../Navigators/AuthContext'; 
 
 export default function VerifyOTP({ navigation, route }) {
+  const { setAuth } = useAuth();
   const isRegistered = route.params?.isRegistered;
-  console.log("rege", isRegistered);
+  // console.log("rege", isRegistered);
 
   const mobileNumber = route.params?.mobileNumber;
   const [otp, setOtp] = useState("");
@@ -37,13 +39,18 @@ export default function VerifyOTP({ navigation, route }) {
         mobile_number: mobileNumber,
         otp: otp,
       });
-      console.log("Response:", res);
+      // console.log("Response:", res);
 
       setLoading(true);
 
       if (res.data.status === true) {
         Alert.alert("Success", res.data.message);
-
+        console.log("respodata",res.data);
+        
+        const { token, user } = res.data;
+        console.log("Token before navigation:", token);
+        console.log("User before navigation:", user);
+        setAuth(token, user);
         if (isRegistered === 0) {
           navigation.navigate("sign-up");
         } else {

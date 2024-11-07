@@ -1,10 +1,22 @@
 import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Ionicons } from "@expo/vector-icons";
 import colors from '../../Components/Colors/Colors';
+import { useAuth } from '../../Navigators/AuthContext';
 
 
 const Profile = ({navigation}) => {
+
+  const { authData } = useAuth();
+  const {  user } = authData;
+
+  useEffect(() => {
+    if (user) {
+      console.log("User in Home:", user);
+    } else {
+      console.log("No auth data available");
+    }
+  }, [ user]);
   const profileMenu = [
     {
       id: 1,
@@ -53,7 +65,7 @@ const Profile = ({navigation}) => {
           }}
         >
           <View style={styles.userIcon}>
-            <Text style={styles.userIconText}>N</Text>
+            <Text style={styles.userIconText}>{user?.company_name ? user.company_name.charAt(0).toUpperCase() : 'U'}</Text>
           </View>
           <Text
             style={{
@@ -63,17 +75,7 @@ const Profile = ({navigation}) => {
 
             }}
           >
-           Infolanze Tech
-          </Text>
-          <Text
-            style={{
-              fontSize: 18,
-              color: "white",
-    fontFamily:'outfit'
-
-            }}
-          >
-            techteam.infolanze@gmail.com
+          {user?.company_name || "User"}
           </Text>
         </View>
       </View>

@@ -142,11 +142,11 @@ const Sign_up = ({ navigation }) => {
           )}
         </TouchableOpacity>
       </View>
-      <View className="flex flex-row gap-6 justify-center mt-5">
+      {/* <View className="flex flex-row gap-6 justify-center mt-5">
         <Entypo name="twitter-with-circle" size={28} color={colors.primary} />
         <FontAwesome name="google-plus-official" size={28} color="red" />
         <Entypo1 name="linkedin-with-circle" size={28} color={colors.primary} />
-      </View>
+      </View> */}
       <Pressable className="flex flex-row mx-auto pt-7">
         <Text className="font-[outfit]">Already have an account?</Text>
         <TouchableOpacity

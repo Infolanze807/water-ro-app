@@ -13,6 +13,7 @@ import Calculator from "./src/Pages/Calculator/Calculator";
 import ContactUs from "./src/Components/ContactUs/ContactUs";
 import WaveImage from "./src/Pages/WaveImage/WaveImage";
 import { useFonts } from "expo-font";
+import { AuthProvider } from "./src/Navigators/AuthContext";
 
 const App = () => {
   const [fontsLoaded, fontError] = useFonts({
@@ -24,6 +25,7 @@ const App = () => {
   const Stack = createStackNavigator();
   return (
     <>
+    <AuthProvider>
       <StatusBar hidden={false} barStyle="default" />
       <NavigationContainer>
         <Stack.Navigator
@@ -42,6 +44,7 @@ const App = () => {
           <Stack.Screen name="waveImage" component={WaveImage} />
         </Stack.Navigator>
       </NavigationContainer>
+      </AuthProvider>
     </>
   );
 };

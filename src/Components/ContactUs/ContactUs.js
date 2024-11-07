@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,13 +7,38 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import colors from "../Colors/Colors";
 import img from "../../../assets/images/contactUs.png";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import email from 'react-native-email';
 
 export default function App({ navigation }) {
+  const [name, setName] = useState("");
+  const [emailInput, setEmailInput] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSendEmail = () => {
+    const to = ['techteam.infolanze@gmail.com'];
+
+    // const body = `Name: ${name}\nEmail: ${emailInput}\nMessage: ${message}`;
+    const body = `Email: ${emailInput}`;
+
+    email(to, {
+      // subject: 'Contact Us Form Submission',
+      // body: body,
+    }).then(() => {
+      Alert.alert("Success", "Your message has been sent successfully!");
+      setName("");
+      setEmailInput("");
+      setMessage("");
+    }).catch((error) => {
+      Alert.alert("Error", "There was an error sending the email.");
+      console.log(error);
+    });
+  };
   return (
     // <ScrollView>
     <View style={styles.container}>
@@ -52,22 +77,22 @@ export default function App({ navigation }) {
           >
             <Text style={styles.header}>GET IN TOUCH!</Text>
             <View style={styles.form}>
-              <View>
+              {/* <View>
                 <Text style={styles.text}>Name</Text>
                 <TextInput style={styles.input} placeholder="Enter Name" />
-              </View>
+              </View> */}
               <View>
                 <Text style={styles.text}>E-mail</Text>
                 <TextInput style={styles.input} placeholder="Enter E-mail" />
               </View>
-              <View>
+              {/* <View>
                 <Text style={styles.text}>Message</Text>
                 <TextInput
                   style={[styles.input]}
                   placeholder="Enter Message"
                   multiline
                 />
-              </View>
+              </View> */}
             </View>
           </View>
           <View
@@ -77,6 +102,7 @@ export default function App({ navigation }) {
               bottom: -30,
             }}
           >
+            <TouchableOpacity onPress={handleSendEmail}>
             <View
               style={{
                 backgroundColor: colors.primary,
@@ -89,6 +115,7 @@ export default function App({ navigation }) {
             >
               <FontAwesome name="send" size={30} color="white" />
             </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
