@@ -7,37 +7,86 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+// import { Picker } from "@react-native-picker/picker";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import colors from "../../Components/Colors/Colors";
+import { Feather } from "@expo/vector-icons";
 
 const Calculator = () => {
-  const [exchangeCapacity, setExchangeCapacity] = useState("");
-  const [flow, setFlow] = useState("");
-  const [hours, setHours] = useState("");
+  const [tds, setTds] = useState("");
+  const [tds2, setTds2] = useState("");
   const [hardness, setHardness] = useState("");
-  const [resinQuantity, setResinQuantity] = useState(0);
-  const [obr, setObr] = useState(0);
-  const [saltRequired, setSaltRequired] = useState(0);
-  const [waterRequired, setWaterRequired] = useState(0);
+  const [hardness2, setHardness2] = useState("");
+  const [flow, setFlow] = useState("");
+  const [obr, setObr] = useState('');
+  const [hours, setHours] = useState("");
+  const [ph, setPh] = useState("");
+  const [resinQ, setResinQ] = useState('');
+  const [seltQ, setSeltQ] = useState("");
+  const [hourFrq, setHourFrq] = useState("");
+  const [showTooltip, setShowTooltip] = useState(false);
+ 
+  const getResinType = (hardness) => {
+    if (hardness >= 100 && hardness <= 600) {
+      return 'ECO 44';
+    } else if (hardness > 600 && hardness <= 800) {
+      return 'CSA 121';
+    } else if (hardness > 800 && hardness <= 1200) {
+      return 'CSA 9NA';
+    } else {
+      return 'Please Select Hardness 100 To 1200';
+    }
+  };
+
+  const getSaltRequirement = (hardness) => {
+  
+    if (hardness <= 400) {
+      return 150;
+    } else if (hardness > 400 && hardness <= 600) {
+      return 160;
+    } else if (hardness > 600 && hardness <= 800) {
+      return 180;
+    } else if (hardness > 800) {
+      return 200;
+    }
+  };
+
+  const getRegenerationFrequency = (hours) => {
+  
+    if (hours <= 10) {
+      return "TWICE A DAY";
+    } else if (hours <= 22) {
+      return "ONCE A DAY";
+    } else if (hours <= 70) {
+      return "ONCE IN 3 DAYS";
+    } else if (hours <= 166) {
+      return "ONCE IN A WEEK";
+    }
+  };
+  
 
   const handleCalculate = () => {
-    // Convert inputs to numbers
     const flowValue = parseFloat(flow);
     const hoursValue = parseFloat(hours);
     const hardnessValue = parseFloat(hardness);
+    const tdsValue = parseFloat(tds);
 
     if (!isNaN(flowValue) && !isNaN(hoursValue) && !isNaN(hardnessValue)) {
-      setResinQuantity(flowValue * hoursValue);
-      setObr(hoursValue * hardnessValue);
-      setSaltRequired(flowValue * hardnessValue);
-      setWaterRequired((flowValue * hoursValue) / hardnessValue);
+        const obrValue = flowValue * hoursValue;
+        const resinQValue = obrValue * hardnessValue / (55 * 1000);
+        const seltQValue = resinQValue * getSaltRequirement(hardnessValue);
+
+        setHardness2(getResinType(hardnessValue));
+        setHourFrq(getRegenerationFrequency(hoursValue));
+        setTds2(tdsValue.toFixed(2));
+        setObr(obrValue.toFixed(2));
+        setResinQ(resinQValue.toFixed(2));
+        setSeltQ(seltQValue.toFixed(2));
     } else {
-      alert("Please enter valid numeric values for all inputs.");
+        alert("Please enter valid numeric values for all inputs.");
     }
-    setFlow("");
-    setHardness("");
-    setHours("");
-  };
+};
+
 
   return (
     <View>
@@ -59,6 +108,43 @@ const Calculator = () => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.card}>
           <Text style={styles.title}>Water Treatment Calculator</Text>
+          
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>PH &nbsp;
+              <TouchableOpacity
+              onPress={() => setShowTooltip(!showTooltip)}
+              style={styles.tooltipIcon}
+              >
+                <Text style={styles.questionMark}>?</Text>
+              </TouchableOpacity>
+            </Text>
+
+            {showTooltip && (
+              <View style={styles.tooltip}>
+                <Text style={styles.tooltipText}>ph range is from 0 to 14.</Text>
+              </View>
+            )}
+            <TextInput
+              style={styles.input}
+              keyboardType="numeric"
+              value={ph}
+              onChangeText={setPh}
+              placeholder="Enter PH"
+              placeholderTextColor={colors.placeholder}
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>TDS</Text>
+            <TextInput
+              style={styles.input}
+              keyboardType="numeric"
+              value={tds}
+              onChangeText={setTds}
+              placeholder="Enter TDS"
+              placeholderTextColor={colors.placeholder}
+            />
+          </View>
 
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Flow (LPH)</Text>
@@ -73,7 +159,7 @@ const Calculator = () => {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Operating Hours (Hrs)</Text>
+            <Text style={styles.label}>Operational Hours (Hrs)</Text>
             <TextInput
               style={styles.input}
               keyboardType="numeric"
@@ -85,7 +171,7 @@ const Calculator = () => {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Water Hardness (mg/L)</Text>
+            <Text style={styles.label}>Water Hardness (ppm as CaCO3)</Text>
             <TextInput
               style={styles.input}
               keyboardType="numeric"
@@ -96,38 +182,23 @@ const Calculator = () => {
             />
           </View>
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Exchange Capacity (g/L)</Text>
-            <View style={styles.pickerContainer}>
-              <Picker
-                selectedValue={exchangeCapacity}
-                style={styles.picker}
-                onValueChange={(itemValue) => setExchangeCapacity(itemValue)}
-              >
-                <Picker.Item label="Eco 44" value="Eco 44" />
-                <Picker.Item label="CSA 9NA" value="CSA 9NA" />
-                <Picker.Item label="CSA 9D" value="CSA 9D" />
-                <Picker.Item label="CSA 121" value="CSA 121" />
-              </Picker>
-            </View>
-          </View>
-
           <TouchableOpacity style={styles.button} onPress={handleCalculate}>
-            <Text style={styles.buttonText}>Calculate</Text>
+            <Text style={styles.buttonText}>Calculate <MaterialCommunityIcons name="calculator" size={17} /></Text>
           </TouchableOpacity>
 
           <View style={styles.resultsContainer}>
-            <Result label="Resin quantity (Liters)" value={resinQuantity} />
-            <Result label="OBR (Liters)" value={obr} />
-            <Result
-              label="Salt required for regeneration (Kg NaCl)"
-              value={saltRequired}
-            />
-            <Result
-              label="Water required for regeneration (Liters)"
-              value={waterRequired}
-            />
+            <Result label="TDS :" value={tds2} />
+            <Result label="Resin Suggested :" value={hardness2} />
+            <Result label="Regeneration Frequency :" value={hourFrq} />
+            <Result label="OBR :" value={obr} />
+            <Result label="Resin Volume (Liters) :" value={resinQ} />
+            <Result label="Salt Quantity (Kg NaCl) :" value={seltQ} />
           </View>
+
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText1}>Download PDF  <Feather name="download" size={14} /></Text>
+          </TouchableOpacity>
+
         </View>
       </ScrollView>
     </View>
@@ -182,6 +253,36 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontFamily: "outfit",
   },
+  tooltipIcon: {
+    backgroundColor: '#f0f0f0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    width: 17,
+    height: 17,
+  },
+  questionMark: {
+    fontSize: 12,
+    color: colors.primary,
+  },
+  tooltip: {
+    position: 'absolute',
+    top: -5,
+    left: 50,
+    padding: 5,
+    backgroundColor: '#333',
+    borderRadius: 5,
+    width: 170,
+    zIndex: 1,
+  },
+  tooltipText: {
+    color: 'white',
+    fontSize: 14,
+  },
+  range: {
+    fontSize: 10,
+    color: "red"
+  },
   input: {
     height: 45,
     borderColor: colors.border,
@@ -216,6 +317,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "outfit",
   },
+  buttonText1: {
+    color: "white",
+    fontSize: 16,
+    fontFamily: "outfit",
+  },
   resultsContainer: {
     width: "100%",
     marginTop: 30,
@@ -224,8 +330,11 @@ const styles = StyleSheet.create({
   resultItem: {
     borderBottomColor: colors.border,
     borderBottomWidth: 1,
-    paddingVertical: 10,
-    alignItems: "center",
+    paddingVertical: 12,
+    alignItems: "flex-start",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   resultLabel: {
     fontSize: 16,
@@ -234,7 +343,7 @@ const styles = StyleSheet.create({
   },
   resultValue: {
     fontSize: 16,
-    color: colors.text,
+    color: "red",
     fontFamily: "outfit",
   },
 });
