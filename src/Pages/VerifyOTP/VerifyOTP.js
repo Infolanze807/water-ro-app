@@ -100,9 +100,9 @@ export default function VerifyOTP({ navigation, route }) {
       <Text className="text-center text-3xl font-semibold font-[outfit-medium]">
         Verify Your OTP
       </Text>
-      <View className='relative pt-2'>
+      <View className='relative pt-2 items-center'>
       {showTimer && (
-        <Text className="text-center text-blue-500 font-medium absolute pt-1 justify-center">
+        <Text className="text-center text-blue-500 font-medium absolute pt-1">
           {formatTime(timeLeft)}
         </Text>
       )}
