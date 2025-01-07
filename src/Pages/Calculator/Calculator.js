@@ -195,9 +195,9 @@ const Calculator = () => {
             <Result label="Salt Quantity (Kg NaCl) :" value={seltQ} />
           </View>
 
-          <TouchableOpacity style={styles.button}>
+          {/* <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText1}>Download PDF  <Feather name="download" size={14} /></Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
         </View>
       </ScrollView>
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 5,
     color: colors.text,
     fontFamily: "outfit",
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     paddingLeft: 10,
-    fontSize: 16,
+    fontSize: 14,
     color: colors.text,
     fontFamily: "outfit",
   },
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: "outfit",
   },
   buttonText1: {
@@ -337,13 +337,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   resultLabel: {
-    fontSize: 16,
+    fontSize: 14,
     color: colors.textSecondary,
     fontFamily: "outfit",
   },
   resultValue: {
-    fontSize: 16,
-    color: "red",
+    fontSize: 14,
+    color: 'green',
     fontFamily: "outfit",
   },
 });

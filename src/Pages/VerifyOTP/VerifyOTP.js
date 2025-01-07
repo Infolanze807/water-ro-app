@@ -18,6 +18,7 @@ import colors from "../../Components/Colors/Colors";
 import axios from "axios";
 import { API_URL } from "@env";
 import { useAuth } from '../../Navigators/AuthContext'; 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function VerifyOTP({ navigation, route }) {
   const { setAuth } = useAuth();
@@ -27,8 +28,30 @@ export default function VerifyOTP({ navigation, route }) {
   const mobileNumber = route.params?.mobileNumber;
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [showTimer, setShowTimer] = useState(true);
+
+  useEffect(() => {
+    let timer;
+    if (timeLeft > 0) {
+      timer = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+    } else {
+      setShowTimer(false); 
+    }
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
 
   const handleVerify = async () => {
+    setLoading(true);
     try {
       const endpoint =
         isRegistered === 0
@@ -41,7 +64,6 @@ export default function VerifyOTP({ navigation, route }) {
       });
       // console.log("Response:", res);
 
-      setLoading(true);
 
       if (res.data.status === true) {
         Alert.alert("Success", res.data.message);
@@ -52,8 +74,11 @@ export default function VerifyOTP({ navigation, route }) {
         console.log("User before navigation:", user);
         setAuth(token, user);
         if (isRegistered === 0) {
-          navigation.navigate("sign-up");
+          navigation.navigate("sign-in");
         } else {
+          const timestamp = Date.now().toString();
+          await AsyncStorage.setItem("loginTimestamp", timestamp);
+          await AsyncStorage.setItem("userName", user.company_name);
           navigation.navigate("Home");
         }
       } else {
@@ -75,6 +100,13 @@ export default function VerifyOTP({ navigation, route }) {
       <Text className="text-center text-3xl font-semibold font-[outfit-medium]">
         Verify Your OTP
       </Text>
+      <View className='relative pt-2'>
+      {showTimer && (
+        <Text className="text-center text-blue-500 font-medium absolute pt-1 justify-center">
+          {formatTime(timeLeft)}
+        </Text>
+      )}
+      </View>
       <View className="px-10 pt-6">
         <View style={styles.container}>
           <View style={styles.fieldset}>
@@ -106,7 +138,7 @@ export default function VerifyOTP({ navigation, route }) {
           onPress={handleVerify}
         >
           {loading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color="#fff" style={{paddingVertical:2}} />
           ) : (
             <Text className="text-white text-center text-base font-[outfit]">
               Verify

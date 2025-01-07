@@ -30,13 +30,13 @@ const Sign_in = ({ navigation }) => {
       Alert.alert("Error", "All fields are required.");
       return;
     }
+    setLoading(true);
     try {
       const res = await axios.post(`${API_URL}/auth/login`, {
         mobile_number: `+91${mobileNumber}`,
       });
       console.log("hIfosklajdjw", res);
 
-      setLoading(true);
 
       if (res.data.status === true) {
         Alert.alert("Success", res.data.message);
@@ -85,14 +85,14 @@ const Sign_in = ({ navigation }) => {
       </View>
       <View className="flex justify-center items-center bg-white pt-8 px-10">
         <TouchableOpacity
-          onPress={()=>{
-            navigation.navigate("Home");
-          }}
-          // onPress={handleLogin}
+          // onPress={()=>{
+          //   navigation.navigate("verify");
+          // }}
+          onPress={handleLogin}
           style={styles.button}
         >
           {loading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color="#fff" style={{paddingVertical:2}} />
           ) : (
             <Text className="text-white text-center text-base font-[outfit]">
               Sign In
@@ -110,6 +110,7 @@ const Sign_in = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("sign-up");
+            setMobileNumber("");
           }}
         >
           <Text style={styles.SignUp}> Sign Up</Text>

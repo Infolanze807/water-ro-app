@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sign_up from "./src/Pages/Regestration/Sign_up";
-import { StatusBar } from "react-native";
+import { StatusBar, Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Sign_in from "./src/Pages/Login/Sign_in";
 import { NavigationContainer } from "@react-navigation/native";
@@ -14,6 +14,7 @@ import ContactUs from "./src/Components/ContactUs/ContactUs";
 import WaveImage from "./src/Pages/WaveImage/WaveImage";
 import { useFonts } from "expo-font";
 import { AuthProvider } from "./src/Navigators/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const App = () => {
   const [fontsLoaded, fontError] = useFonts({
@@ -23,13 +24,54 @@ const App = () => {
   });
 
   const Stack = createStackNavigator();
+
+  const checkLoginStatus = async () => {
+    try {
+      const savedLoginTime = await AsyncStorage.getItem("loginTimestamp");
+      
+      if (savedLoginTime) {
+        const loginTime = new Date(parseInt(savedLoginTime));
+        const currentTime = new Date();
+        // console.log("sdfsd", loginTime);
+        // console.log("current", currentTime);
+        
+        const timeDifference = (currentTime - loginTime) / (1000 * 60 * 60);
+
+        if (timeDifference > 24) {
+          return "landingpage";
+        } else {
+          return "Home";
+        }
+      } else {
+        return "landingpage";
+      }
+    } catch (error) {
+      console.error("Error checking login status:", error);
+      return "landingpage";
+    }
+  };
+
+  const [initialRoute, setInitialRoute] = React.useState(null);
+
+  useEffect(() => {
+    const initializeApp = async () => {
+      const route = await checkLoginStatus();
+      setInitialRoute(route);
+    };
+    initializeApp();
+  }, []);
+
+  if (!initialRoute) {
+    return <View><Text>Loading...</Text></View>;
+  }
+
   return (
     <>
     <AuthProvider>
       <StatusBar hidden={false} barStyle="default" />
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="waveImage"
+          initialRouteName={initialRoute}
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="Home" component={HomeTabNavigation} />

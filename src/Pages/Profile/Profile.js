@@ -1,22 +1,25 @@
 import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Ionicons } from "@expo/vector-icons";
 import colors from '../../Components/Colors/Colors';
-import { useAuth } from '../../Navigators/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Profile = ({navigation}) => {
 
-  const { authData } = useAuth();
-  const {  user } = authData;
+  const [user1, setUser] = useState("");
+
+  const getAuthData = async () => {
+    const storedAuthData = await AsyncStorage.getItem('userName');
+    if (storedAuthData) {
+      setUser(storedAuthData);
+    }
+  };
 
   useEffect(() => {
-    if (user) {
-      console.log("User in Home:", user);
-    } else {
-      console.log("No auth data available");
-    }
-  }, [ user]);
+    getAuthData();
+  }, []);
+
   const profileMenu = [
     {
       id: 1,
@@ -47,7 +50,9 @@ const Profile = ({navigation}) => {
       name: "Logout",
       icon: "log-out",
       action: async () => {
-        navigation.navigate('sign-up')
+        await AsyncStorage.removeItem("loginTimestamp");
+        await AsyncStorage.removeItem("userName");
+        navigation.navigate('sign-in');
       },
     },
   ];
@@ -65,7 +70,7 @@ const Profile = ({navigation}) => {
           }}
         >
           <View style={styles.userIcon}>
-            <Text style={styles.userIconText}>{user?.company_name ? user.company_name.charAt(0).toUpperCase() : 'U'}</Text>
+            <Text style={styles.userIconText}>{user1 ? user1.charAt(0).toUpperCase() : 'U'}</Text>
           </View>
           <Text
             style={{
@@ -75,7 +80,7 @@ const Profile = ({navigation}) => {
 
             }}
           >
-          {user?.company_name || "User"}
+          {user1 || "User"}
           </Text>
         </View>
       </View>

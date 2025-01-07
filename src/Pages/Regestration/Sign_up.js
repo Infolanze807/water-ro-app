@@ -58,6 +58,9 @@ const Sign_up = ({ navigation }) => {
     } catch (error) {
       console.log("Error Response:", error);
       Alert.alert("Error", error.response?.data?.message || "Server error");
+      setCompanyName("");
+      setCity("");
+      setMobileNumber("");
     } finally {
       setLoading(false);
     }
@@ -134,7 +137,7 @@ const Sign_up = ({ navigation }) => {
         }}>  */}
 
           {loading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color="#fff" style={{paddingVertical:2}} />
           ) : (
             <Text className="text-white text-center text-base font-[outfit]">
               Sign up
@@ -152,6 +155,9 @@ const Sign_up = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("sign-in");
+            setCompanyName("");
+            setCity("");
+            setMobileNumber("");
           }}
         >
           <Text style={styles.SignIn}> Sign In</Text>

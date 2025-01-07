@@ -17,24 +17,24 @@ import axios from "axios";
 import logo from "../../../assets/images/logomain2.png";
 import { OBJECT_TYPE, COSMIC_READKEY, APIURL } from "@env";
 import { useFocusEffect } from "@react-navigation/native";
-import { useAuth } from '../../Navigators/AuthContext'; 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const Home = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [user1, setUser] = useState("");
 
-  const { authData } = useAuth();
-  const { token, user } = authData;
+  const getAuthData = async () => {
+    const storedAuthData = await AsyncStorage.getItem('userName');
+    if (storedAuthData) {
+      setUser(storedAuthData);
+    }
+  };
 
   useEffect(() => {
-    if (token && user) {
-      console.log("Token in Home:", token);
-      console.log("User in Home:", user);
-    } else {
-      console.log("No auth data available");
-    }
-  }, [token, user]);
+    getAuthData();
+  }, []);
 
   const selectedDatas = data.slice(0, 6);
 
@@ -109,7 +109,7 @@ const Home = ({ navigation }) => {
       <View style={styles.headerContainer}>
         <View style={styles.welcomeContainer}>
           <Text style={styles.welcomeText}>Welcome</Text>
-          <Text style={styles.companyText}>{user?.company_name || "User"}</Text>
+          <Text style={styles.companyText}>{user1 || "User"}</Text>
         </View>
         <View style={styles.iconContainer}>
           <Image
