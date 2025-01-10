@@ -68,7 +68,7 @@ const App = () => {
   return (
     <>
     <AuthProvider>
-      <StatusBar hidden={false} barStyle="default" />
+      <StatusBar hidden={false} barStyle="dark-content" backgroundColor="white" />
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName={initialRoute}

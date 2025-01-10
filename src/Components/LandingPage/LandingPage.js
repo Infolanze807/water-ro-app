@@ -72,7 +72,7 @@ const styles= StyleSheet.create({
         elevation: 7,
       },
     }),
-    borderRadius: 20,
+    borderRadius: 0,
    },
    curveWrapper: {
     position: 'absolute',
