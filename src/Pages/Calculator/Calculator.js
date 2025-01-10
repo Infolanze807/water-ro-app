@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,10 +7,13 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-// import { Picker } from "@react-native-picker/picker";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import colors from "../../Components/Colors/Colors";
 import { Feather } from "@expo/vector-icons";
+import { printToFileAsync } from 'expo-print';
+import * as Sharing from 'expo-sharing';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Calculator = () => {
   const [tds, setTds] = useState("");
@@ -25,6 +28,7 @@ const Calculator = () => {
   const [seltQ, setSeltQ] = useState("");
   const [hourFrq, setHourFrq] = useState("");
   const [showTooltip, setShowTooltip] = useState(false);
+  const [isCalculated, setIsCalculated] = useState(false);
  
   const getResinType = (hardness) => {
     if (hardness >= 100 && hardness <= 600) {
@@ -82,10 +86,185 @@ const Calculator = () => {
         setObr(obrValue.toFixed(2));
         setResinQ(resinQValue.toFixed(2));
         setSeltQ(seltQValue.toFixed(2));
+        setIsCalculated(true);
     } else {
         alert("Please enter valid numeric values for all inputs.");
     }
 };
+
+const handleCalculateClear = () => {
+  setTds("");
+  setTds2("");
+  setHardness("");
+  setHardness2("");
+  setFlow("");
+  setObr("");
+  setHours("");
+  setPh("");
+  setResinQ("");
+  setSeltQ("");
+  setHourFrq("");
+  setIsCalculated(false);
+}
+
+const [user1, setUser] = useState("");
+const [userNumber, setUserNumber] = useState("");
+
+const getAuthData = async () => {
+  const storedAuthData = await AsyncStorage.getItem('userName');
+  const storedAuthNumber = await AsyncStorage.getItem('userNumber');
+  if (storedAuthData || storedAuthNumber) {
+    setUser(storedAuthData);
+    setUserNumber(storedAuthNumber);
+  }
+};
+
+useEffect(() => {
+  getAuthData();
+}, []);
+
+const generatePdf = async () => {
+  if (!isCalculated) {
+    alert("Please calculate the values before generating the PDF.");
+    return;
+  }
+  try {
+    const htmlContent = `
+      <html>
+        <head>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              line-height: 1.6;
+              padding: 20px;
+              color: #333;
+            }
+            h1 {
+              text-align: center;
+              color: #3034E9;
+              margin-bottom: 30px;
+            }
+            .container {
+              width: 100%;
+              max-width: 800px;
+              margin: 0 auto;
+            }
+            .section-title {
+              font-size: 18px;
+              margin: 20px 0 10px;
+              color: #222;
+              text-transform: uppercase;
+              border-bottom: 2px solid #3034E9;
+              padding-bottom: 5px;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin: 20px 0;
+            }
+            th, td {
+              border: 1px solid #ddd;
+              text-align: left;
+              padding: 8px;
+            }
+            th {
+              background-color: #3034E9;
+              color: white;
+            }
+            .summary-row {
+              background-color: #f9f9f9;
+              font-weight: bold;
+            }
+          </style>
+        </head>
+        <body>
+          <h1>Doshion Techcenter</h1>
+          <div class="container">
+            <p><strong>Company Name:</strong> ${user1}</p>
+            <p><strong>Number:</strong> ${userNumber}</p>
+
+            <div>
+              <h2 class="section-title">Inputs</h2>
+              <table>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Value</th>
+                </tr>
+                <tr>
+                  <td>PH</td>
+                  <td>${ph}</td>
+                </tr>
+                <tr>
+                  <td>TDS</td>
+                  <td>${tds}</td>
+                </tr>
+                <tr>
+                  <td>Flow (LPH)</td>
+                  <td>${flow}</td>
+                </tr>
+                <tr>
+                  <td>Operational Hours (Hrs)</td>
+                  <td>${hours}</td>
+                </tr>
+                <tr>
+                  <td>Water Hardness (ppm as CaCO3)</td>
+                  <td>${hardness}</td>
+                </tr>
+              </table>
+            </div>
+
+            <div>
+              <h2 class="section-title">Outputs</h2>
+              <table>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Value</th>
+                </tr>
+                <tr>
+                  <td>TDS</td>
+                  <td>${tds2}</td>
+                </tr>
+                <tr>
+                  <td>Resin Suggested</td>
+                  <td>${hardness2}</td>
+                </tr>
+                <tr>
+                  <td>Regeneration Frequency</td>
+                  <td>${hourFrq}</td>
+                </tr>
+                <tr>
+                  <td>OBR</td>
+                  <td>${obr}</td>
+                </tr>
+                <tr>
+                  <td>Resin Volume (Liters)</td>
+                  <td>${resinQ}</td>
+                </tr>
+                <tr>
+                  <td>Salt Quantity (Kg NaCl)</td>
+                  <td>${seltQ}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+
+    const file = await printToFileAsync({
+      html: htmlContent,
+      base64: false,
+    });
+
+    if (file.uri) {
+      await Sharing.shareAsync(file.uri);
+      Alert.alert('PDF Generated', 'The PDF has been generated and is ready to download.');
+    }
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+  }
+};
+
 
 
   return (
@@ -181,10 +360,14 @@ const Calculator = () => {
               placeholderTextColor={colors.placeholder}
             />
           </View>
-
-          <TouchableOpacity style={styles.button} onPress={handleCalculate}>
-            <Text style={styles.buttonText}>Calculate <MaterialCommunityIcons name="calculator" size={17} /></Text>
+            <View style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+            <TouchableOpacity style={styles.button1} onPress={handleCalculateClear}>
+            <Text style={styles.buttonText}>Clear <AntDesign  name="close" size={15} /></Text>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.button1} onPress={handleCalculate}>
+            <Text style={styles.buttonText}>Calculate <MaterialCommunityIcons name="calculator" size={15} /></Text>
+          </TouchableOpacity>
+            </View>
 
           <View style={styles.resultsContainer}>
             <Result label="TDS :" value={tds2} />
@@ -195,9 +378,9 @@ const Calculator = () => {
             <Result label="Salt Quantity (Kg NaCl) :" value={seltQ} />
           </View>
 
-          {/* <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText1}>Download PDF  <Feather name="download" size={14} /></Text>
-          </TouchableOpacity> */}
+          <TouchableOpacity style={styles.button} onPress={generatePdf}>
+            <Text style={styles.buttonText1}>Download PDF  <Feather name="download" size={15} /></Text>
+          </TouchableOpacity>
 
         </View>
       </ScrollView>
@@ -225,7 +408,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: "100%",
-    maxWidth: 600, // Constrain width on large screens
+    maxWidth: 600, 
     backgroundColor: colors.white,
     borderRadius: 15,
     padding: 20,
@@ -284,7 +467,7 @@ const styles = StyleSheet.create({
     color: "red"
   },
   input: {
-    height: 45,
+    height: 40,
     borderColor: colors.border,
     borderWidth: 1,
     borderRadius: 8,
@@ -302,6 +485,15 @@ const styles = StyleSheet.create({
   picker: {
     height: 45,
     width: "100%",
+  },
+  button1: {
+    backgroundColor: colors.primary,
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    width: "50%",
   },
   button: {
     backgroundColor: colors.primary,

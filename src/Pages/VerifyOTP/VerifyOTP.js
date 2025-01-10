@@ -79,6 +79,7 @@ export default function VerifyOTP({ navigation, route }) {
           const timestamp = Date.now().toString();
           await AsyncStorage.setItem("loginTimestamp", timestamp);
           await AsyncStorage.setItem("userName", user.company_name);
+          await AsyncStorage.setItem("userNumber", user.mobile_number);
           navigation.navigate("Home");
         }
       } else {
