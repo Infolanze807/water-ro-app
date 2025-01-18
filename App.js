@@ -15,6 +15,7 @@ import WaveImage from "./src/Pages/WaveImage/WaveImage";
 import { useFonts } from "expo-font";
 import { AuthProvider } from "./src/Navigators/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import VideoSplashScreen from "./src/Components/SplashScreen/VideoSplashScreen";
 
 const App = () => {
   const [fontsLoaded, fontError] = useFonts({
@@ -24,6 +25,8 @@ const App = () => {
   });
 
   const Stack = createStackNavigator();
+  const [initialRoute, setInitialRoute] = React.useState('null');
+  // const [isAppReady, setIsAppReady] = React.useState(false);
 
   const checkLoginStatus = async () => {
     try {
@@ -32,12 +35,10 @@ const App = () => {
       if (savedLoginTime) {
         const loginTime = new Date(parseInt(savedLoginTime));
         const currentTime = new Date();
-        // console.log("sdfsd", loginTime);
-        // console.log("current", currentTime);
         
         const timeDifference = (currentTime - loginTime) / (1000 * 60 * 60);
 
-        if (timeDifference > 24) {
+        if (timeDifference > 168) {
           return "landingpage";
         } else {
           return "Home";
@@ -51,19 +52,23 @@ const App = () => {
     }
   };
 
-  const [initialRoute, setInitialRoute] = React.useState(null);
 
   useEffect(() => {
     const initializeApp = async () => {
       const route = await checkLoginStatus();
       setInitialRoute(route);
+      // setIsAppReady(true);
     };
     initializeApp();
   }, []);
 
   if (!initialRoute) {
-    return <View><Text>Loading...</Text></View>;
+    return <View><Text> </Text></View>;
   }
+
+  // if (!isAppReady) {
+  //   return <VideoSplashScreen onFinish={() => setIsAppReady(true)} />;
+  // }
 
   return (
     <>

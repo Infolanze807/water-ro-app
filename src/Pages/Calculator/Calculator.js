@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Alert,
 } from "react-native";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -14,6 +15,9 @@ import { Feather } from "@expo/vector-icons";
 import { printToFileAsync } from 'expo-print';
 import * as Sharing from 'expo-sharing';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
+import axios from "axios";
+import { API_URL } from "@env";
 
 const Calculator = () => {
   const [tds, setTds] = useState("");
@@ -29,6 +33,9 @@ const Calculator = () => {
   const [hourFrq, setHourFrq] = useState("");
   const [showTooltip, setShowTooltip] = useState(false);
   const [isCalculated, setIsCalculated] = useState(false);
+  const [user1, setUser] = useState("");
+  const [userNumber, setUserNumber] = useState("");
+  const [userId, setUserId] = useState("");
  
   const getResinType = (hardness) => {
     if (hardness >= 100 && hardness <= 600) {
@@ -46,11 +53,11 @@ const Calculator = () => {
   
     if (hardness <= 400) {
       return 150;
-    } else if (hardness > 400 && hardness <= 600) {
+    } else if (hardness > 400 && hardness < 600) {
       return 160;
-    } else if (hardness > 600 && hardness <= 800) {
+    } else if (hardness >= 600 && hardness < 800) {
       return 180;
-    } else if (hardness > 800) {
+    } else if (hardness >= 800) {
       return 200;
     }
   };
@@ -69,7 +76,7 @@ const Calculator = () => {
   };
   
 
-  const handleCalculate = () => {
+  const handleCalculate = async () => {
     const flowValue = parseFloat(flow);
     const hoursValue = parseFloat(hours);
     const hardnessValue = parseFloat(hardness);
@@ -78,7 +85,7 @@ const Calculator = () => {
     if (!isNaN(flowValue) && !isNaN(hoursValue) && !isNaN(hardnessValue)) {
         const obrValue = flowValue * hoursValue;
         const resinQValue = obrValue * hardnessValue / (55 * 1000);
-        const seltQValue = resinQValue * getSaltRequirement(hardnessValue);
+        const seltQValue = (resinQValue * getSaltRequirement(hardnessValue)) / 1000;
 
         setHardness2(getResinType(hardnessValue));
         setHourFrq(getRegenerationFrequency(hoursValue));
@@ -87,6 +94,41 @@ const Calculator = () => {
         setResinQ(resinQValue.toFixed(2));
         setSeltQ(seltQValue.toFixed(2));
         setIsCalculated(true);
+
+        const result = {
+          tds: tdsValue.toFixed(2),
+          resinSuggested: getResinType(hardnessValue),
+          regenerationFrequency: getRegenerationFrequency(hoursValue),
+          OBR: obrValue.toFixed(2),
+          ResinVolumeLiters: resinQValue.toFixed(2),
+          saltQuantityKg: seltQValue.toFixed(2),
+      };
+
+        try {
+            const res = await axios.post(`${API_URL}/auth/addCalculatorLogs`, {
+                userId: userId,
+                ph: ph,
+                tds: tds,
+                flow: flow,
+                operationalHours: hours,
+                waterHardness: hardness,
+                result,
+            });
+
+            if (res.status >= 400) {
+                console.error("Error response from API:", res.data);
+                toast.error(
+                    `Error submitting data to the server: ${
+                        res.data?.message || "Unknown error"
+                    }`
+                );
+                return;
+            }
+        } catch (error) {
+            console.error("Network/API error:", error.message);
+            // alert("Unable to connect to the server. Please try again later.");
+        }
+
     } else {
         alert("Please enter valid numeric values for all inputs.");
     }
@@ -107,163 +149,136 @@ const handleCalculateClear = () => {
   setIsCalculated(false);
 }
 
-const [user1, setUser] = useState("");
-const [userNumber, setUserNumber] = useState("");
 
 const getAuthData = async () => {
   const storedAuthData = await AsyncStorage.getItem('userName');
   const storedAuthNumber = await AsyncStorage.getItem('userNumber');
-  if (storedAuthData || storedAuthNumber) {
+  const storedAuthId = await AsyncStorage.getItem('userId');
+  if (storedAuthData || storedAuthNumber || storedAuthId) {
     setUser(storedAuthData);
     setUserNumber(storedAuthNumber);
+    setUserId(storedAuthId);
+  } else {
+    setUser("");
+    setUserNumber('');
+    setUserId('');
   }
 };
 
-useEffect(() => {
-  getAuthData();
-}, []);
+useFocusEffect(
+    React.useCallback(() => {
+      getAuthData();
+      handleCalculateClear();
+    }, [])
+  );
 
-const generatePdf = async () => {
-  if (!isCalculated) {
-    alert("Please calculate the values before generating the PDF.");
-    return;
-  }
-  try {
-    const htmlContent = `
-      <html>
-        <head>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              line-height: 1.6;
-              padding: 20px;
-              color: #333;
-            }
-            h1 {
-              text-align: center;
-              color: #3034E9;
-              margin-bottom: 30px;
-            }
-            .container {
-              width: 100%;
-              max-width: 800px;
-              margin: 0 auto;
-            }
-            .section-title {
-              font-size: 18px;
-              margin: 20px 0 10px;
-              color: #222;
-              text-transform: uppercase;
-              border-bottom: 2px solid #3034E9;
-              padding-bottom: 5px;
-            }
-            table {
-              width: 100%;
-              border-collapse: collapse;
-              margin: 20px 0;
-            }
-            th, td {
-              border: 1px solid #ddd;
-              text-align: left;
-              padding: 8px;
-            }
-            th {
-              background-color: #3034E9;
-              color: white;
-            }
-            .summary-row {
-              background-color: #f9f9f9;
-              font-weight: bold;
-            }
-          </style>
-        </head>
-        <body>
-          <h1>Doshion Techcenter</h1>
-          <div class="container">
-            <p><strong>Company Name:</strong> ${user1}</p>
-            <p><strong>Number:</strong> ${userNumber}</p>
-
-            <div>
-              <h2 class="section-title">Inputs</h2>
-              <table>
-                <tr>
-                  <th>Parameter</th>
-                  <th>Value</th>
-                </tr>
-                <tr>
-                  <td>PH</td>
-                  <td>${ph}</td>
-                </tr>
-                <tr>
-                  <td>TDS</td>
-                  <td>${tds}</td>
-                </tr>
-                <tr>
-                  <td>Flow (LPH)</td>
-                  <td>${flow}</td>
-                </tr>
-                <tr>
-                  <td>Operational Hours (Hrs)</td>
-                  <td>${hours}</td>
-                </tr>
-                <tr>
-                  <td>Water Hardness (ppm as CaCO3)</td>
-                  <td>${hardness}</td>
-                </tr>
-              </table>
-            </div>
-
-            <div>
-              <h2 class="section-title">Outputs</h2>
-              <table>
-                <tr>
-                  <th>Parameter</th>
-                  <th>Value</th>
-                </tr>
-                <tr>
-                  <td>TDS</td>
-                  <td>${tds2}</td>
-                </tr>
-                <tr>
-                  <td>Resin Suggested</td>
-                  <td>${hardness2}</td>
-                </tr>
-                <tr>
-                  <td>Regeneration Frequency</td>
-                  <td>${hourFrq}</td>
-                </tr>
-                <tr>
-                  <td>OBR</td>
-                  <td>${obr}</td>
-                </tr>
-                <tr>
-                  <td>Resin Volume (Liters)</td>
-                  <td>${resinQ}</td>
-                </tr>
-                <tr>
-                  <td>Salt Quantity (Kg NaCl)</td>
-                  <td>${seltQ}</td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </body>
-      </html>
-    `;
-
-    const file = await printToFileAsync({
-      html: htmlContent,
-      base64: false,
-    });
-
-    if (file.uri) {
-      await Sharing.shareAsync(file.uri);
-      Alert.alert('PDF Generated', 'The PDF has been generated and is ready to download.');
+  const generatePdf = async () => {
+    if (!isCalculated) {
+      alert("Please calculate the values before generating the PDF.");
+      return;
     }
-  } catch (error) {
-    console.error('Error generating PDF:', error);
-  }
-};
+    try {
+      
+      const htmlContent = `
+        <html>
+          <head>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                padding: 20px;
+                color: #333;
+              }
+              h1 {
+                text-align: center;
+                color: #3034E9;
+                margin-bottom: 30px;
+              }
+              .container {
+                width: 100%;
+                max-width: 800px;
+                margin: 0 auto;
+              }
+              .section-title {
+                font-size: 18px;
+                margin: 20px 0 10px;
+                color: #222;
+                text-transform: uppercase;
+                border-bottom: 2px solid #3034E9;
+                padding-bottom: 5px;
+              }
+              table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+              }
+              th, td {
+                border: 1px solid #ddd;
+                text-align: left;
+                padding: 8px;
+              }
+              th {
+                background-color: #3034E9;
+                color: white;
+              }
+              .summary-row {
+                background-color: #f9f9f9;
+                font-weight: bold;
+              }
+            </style>
+          </head>
+          <body>
+            <h1>Doshion Techcenter</h1>
+            <div class="container">
+              <p><strong>Company Name:</strong> ${user1}</p>
+              <p><strong>Number:</strong> ${userNumber}</p>
+  
+              <div>
+                <h2 class="section-title">Inputs</h2>
+                <table>
+                  <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                  </tr>
+                  <tr><td>PH</td><td>${ph}</td></tr>
+                  <tr><td>TDS</td><td>${tds}</td></tr>
+                  <tr><td>Flow (LPH)</td><td>${flow}</td></tr>
+                  <tr><td>Operational Hours (Hrs)</td><td>${hours}</td></tr>
+                  <tr><td>Water Hardness (ppm as CaCO3)</td><td>${hardness}</td></tr>
+                </table>
+              </div>
+  
+              <div>
+                <h2 class="section-title">Outputs</h2>
+                <table>
+                  <tr><th>Parameter</th><th>Value</th></tr>
+                  <tr><td>TDS</td><td>${tds2}</td></tr>
+                  <tr><td>Resin Suggested</td><td>${hardness2}</td></tr>
+                  <tr><td>Regeneration Frequency</td><td>${hourFrq}</td></tr>
+                  <tr><td>OBR</td><td>${obr}</td></tr>
+                  <tr><td>Resin Volume (Liters)</td><td>${resinQ}</td></tr>
+                  <tr><td>Salt Quantity (Kg NaCl)</td><td>${seltQ}</td></tr>
+                </table>
+              </div>
+            </div>
+          </body>
+        </html>
+      `;
+  
+      const file = await printToFileAsync({
+        html: htmlContent,
+        base64: false,
+      });
+  
+      if (file.uri) {
+        await Sharing.shareAsync(file.uri);
+      }
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      alert("An unexpected error occurred. Please try again.");
+    }
+  };
+  
 
 
 

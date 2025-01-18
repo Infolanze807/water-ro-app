@@ -29,12 +29,16 @@ const Home = ({ navigation }) => {
     const storedAuthData = await AsyncStorage.getItem('userName');
     if (storedAuthData) {
       setUser(storedAuthData);
+    } else {
+      setUser("");
     }
   };
 
-  useEffect(() => {
-    getAuthData();
-  }, []);
+ useFocusEffect(
+     React.useCallback(() => {
+       getAuthData();
+     }, [])
+   );
 
   const selectedDatas = data.slice(0, 6);
 

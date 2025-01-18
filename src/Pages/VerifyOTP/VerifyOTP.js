@@ -80,7 +80,8 @@ export default function VerifyOTP({ navigation, route }) {
           await AsyncStorage.setItem("loginTimestamp", timestamp);
           await AsyncStorage.setItem("userName", user.company_name);
           await AsyncStorage.setItem("userNumber", user.mobile_number);
-          navigation.navigate("Home");
+          await AsyncStorage.setItem("userId", user._id);
+          navigation.navigate("HomeTab");
         }
       } else {
         Alert.alert("Error", res.data.message);

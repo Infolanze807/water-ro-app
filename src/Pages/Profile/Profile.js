@@ -1,8 +1,9 @@
 import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Ionicons } from "@expo/vector-icons";
 import colors from '../../Components/Colors/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const Profile = ({navigation}) => {
@@ -13,12 +14,16 @@ const Profile = ({navigation}) => {
     const storedAuthData = await AsyncStorage.getItem('userName');
     if (storedAuthData) {
       setUser(storedAuthData);
+    } else {
+      setUser("");
     }
   };
 
-  useEffect(() => {
-    getAuthData();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getAuthData();
+    }, [])
+  );
 
   const profileMenu = [
     {
@@ -52,6 +57,8 @@ const Profile = ({navigation}) => {
       action: async () => {
         await AsyncStorage.removeItem("loginTimestamp");
         await AsyncStorage.removeItem("userName");
+        await AsyncStorage.removeItem("userNumber");
+        await AsyncStorage.removeItem("userId");
         navigation.navigate('sign-in');
       },
     },
